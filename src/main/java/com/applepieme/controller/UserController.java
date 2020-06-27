@@ -1,6 +1,5 @@
 package com.applepieme.controller;
 
-import com.applepieme.bean.User;
 import com.applepieme.service.FactoryService;
 import com.applepieme.service.UserService;
 
@@ -11,17 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
- * 管理员Controller
- * 处理管理员相关请求
+ * 用户Controller
+ * 处理用户相关请求
  *
  * @author applepieme@yeah.net
- * @date 2020/6/26 21:51
+ * @date 2020/6/27 20:35
  */
-@WebServlet("*.manage")
-public class ManageController extends HttpServlet {
+@WebServlet("*.user")
+public class UserController extends HttpServlet {
     /**
      * UserService实例对象
      */
@@ -37,7 +35,7 @@ public class ManageController extends HttpServlet {
         // 获取请求路径
         String methodName = req.getServletPath();
         // 从请求路径获取方法名
-        methodName = methodName.substring(1, methodName.length() - 7);
+        methodName = methodName.substring(1, methodName.length() - 5);
         try {
             // 获取封装了前面方法名对应方法的Method对象
             Method method = this.getClass().getDeclaredMethod(methodName, HttpServletRequest.class,
@@ -46,16 +44,6 @@ public class ManageController extends HttpServlet {
             method.invoke(this, req, resp);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        if ("admin".equals(username) && "admin".equals(password)) {
-            List<User> userList = userService.listUsers();
-            req.setAttribute("userList", userList);
-            req.getRequestDispatcher("WEB-INF/manage/showUser.jsp").forward(req, resp);
         }
     }
 }

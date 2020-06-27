@@ -11,6 +11,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.css"/>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap-theme.css"/>
-<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css"/>
 <script src="${pageContext.request.contextPath}/static/js/jquery.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/bootstrap.js"></script>
