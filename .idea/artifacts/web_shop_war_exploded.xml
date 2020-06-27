@@ -10,9 +10,9 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: commons-dbutils:commons-dbutils:1.6" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
-          <element id="library" level="project" name="Maven: com.mchange:c3p0:0.9.5.2" />
-          <element id="library" level="project" name="Maven: com.mchange:mchange-commons-java:0.2.11" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.38" />
+          <element id="library" level="project" name="Maven: com.mchange:c3p0:0.9.5.4" />
+          <element id="library" level="project" name="Maven: com.mchange:mchange-commons-java:0.2.15" />
         </element>
       </element>
       <element id="directory" name="static">
