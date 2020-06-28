@@ -1,5 +1,7 @@
 package com.applepieme.controller;
 
+import com.applepieme.bean.Cart;
+import com.applepieme.bean.User;
 import com.applepieme.service.FactoryService;
 import com.applepieme.service.UserService;
 
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * 用户Controller
@@ -44,6 +47,48 @@ public class UserController extends HttpServlet {
             method.invoke(this, req, resp);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        List<User> userList = userService.listUsers();
+        for (User user : userList) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                Cart userCart = new Cart();
+                userCart.setUserId(user.getUserId());
+                userCart.setUsername(username);
+                req.getSession().setAttribute("userCart", userCart);
+                resp.getWriter().println(200);
+                return;
+            }
+        }
+        resp.getWriter().println(400);
+    }
+
+    /**
+     * 用户注销
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getSession().getAttribute("userCart") != null) {
+            req.getSession().setAttribute("userCart", null);
+            resp.getWriter().println(200);
+        } else {
+            resp.getWriter().println(400);
         }
     }
 }

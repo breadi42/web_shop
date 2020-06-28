@@ -20,6 +20,19 @@
         color: #eeeeee;
     }
 
+    .footer-options {
+        text-decoration: none;
+        color: #eeeeee;
+        font-size: 14px;
+    }
+
+    .footer-options:hover {
+        background: #eeeeee;
+        color: #556a89;
+        text-decoration: none;
+        border-radius: 3px;
+    }
+
     #copy {
         height: 30px;
     }
@@ -30,9 +43,10 @@
         <div class="col-md-12 column">
             <div id="footer">
                 <div class="footerNav">
-                    <a rel="nofollow" href="https://github.com/ApplePieme/web_shop">项目GitHub请点这里</a> |
-                    <a rel="nofollow" href="https://www.bootcss.com/">Bootstrap中文网</a> |
-                    <a rel="nofollow" href="http://glyphicons.com/">图标来自Glyphicon</a>
+                    <a rel="nofollow" href="https://github.com/ApplePieme/web_shop"
+                       class="footer-options">项目GitHub地址</a> |
+                    <a rel="nofollow" href="https://www.bootcss.com/" class="footer-options">Bootstrap中文网</a> |
+                    <a rel="nofollow" href="http://glyphicons.com/" class="footer-options">图标来自Glyphicon</a>
                     <br><span id="copy">Copy&nbspapplepieme</span>
                 </div>
             </div>

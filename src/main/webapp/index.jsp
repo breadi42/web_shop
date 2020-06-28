@@ -9,8 +9,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>网上商城</title>
-    <jsp:include page="static/userHead.jsp"/>
+    <title>并 夕 夕</title>
+    <jsp:include page="static/header.jsp"/>
 </head>
 <body>
 

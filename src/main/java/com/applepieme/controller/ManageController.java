@@ -1,5 +1,6 @@
 package com.applepieme.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.applepieme.bean.User;
 import com.applepieme.service.FactoryService;
 import com.applepieme.service.UserService;
@@ -53,9 +54,9 @@ public class ManageController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         if ("admin".equals(username) && "admin".equals(password)) {
-            List<User> userList = userService.listUsers();
-            req.setAttribute("userList", userList);
-            req.getRequestDispatcher("WEB-INF/manage/showUser.jsp").forward(req, resp);
+            resp.getWriter().println(200);
+        } else {
+            resp.getWriter().println(400);
         }
     }
 }
