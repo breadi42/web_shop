@@ -74,6 +74,18 @@
             width: 100px;
             height: 20px;
         }
+
+        #box-title {
+            text-align: center;
+            color: #eeeeee;
+            position: relative;
+            top: 25px;
+            height: 0;
+        }
+
+        h3 {
+            margin: 0;
+        }
     </style>
 
     <script>
@@ -110,8 +122,10 @@
             $('#user-login').click(function () {
                 if ($('#username').val() === '') {
                     $('#input-status').html('用户名不能为空!')
+                    createCaptcha()
                 } else if ($('#password').val() === '') {
                     $('#input-status').html('密码不能为空!')
+                    createCaptcha()
                 } else {
                     if ($('#input-captcha').val().toUpperCase() === captcha.toUpperCase()) {
                         $.post('${pageContext.request.contextPath}/login.user', $('#login-form').serialize(),
@@ -142,8 +156,10 @@
             $('#manage-login').click(function () {
                 if ($('#username').val() === '') {
                     $('#input-status').html('用户名不能为空!')
+                    createCaptcha()
                 } else if ($('#password').val() === '') {
                     $('#input-status').html('密码不能为空!')
+                    createCaptcha()
                 } else {
                     if ($('#input-captcha').val().toUpperCase() === captcha.toUpperCase()) {
                         $.post('${pageContext.request.contextPath}/login.manage', $('#login-form').serialize(),
@@ -179,6 +195,9 @@
         <div class="col-md-4 column"></div>
         <div class="col-md-4 column">
             <div id="login-box">
+                <div id="box-title">
+                    <h3>用&nbsp户&nbsp登&nbsp录</h3>
+                </div>
                 <form id="login-form">
                     <div class="input-group">
                     <span class="input-group-addon">
@@ -211,7 +230,7 @@
                         </div>
                     </div>
                     <div id="signup-box">
-                        <a href="#" id="signup-a">还没有账号？马上注册</a>
+                        <a href="${pageContext.request.contextPath}/signup.go" id="signup-a">还没有账号？马上注册</a>
                     </div>
                 </form>
             </div>

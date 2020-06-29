@@ -9,10 +9,25 @@ import java.util.List;
  * @date 2020/6/28 20:45
  */
 public class Cart {
+    /**
+     * 当前登录的用户id
+     */
     private int userId;
+    /**
+     * 当前登录的用户名
+     */
     private String username;
+    /**
+     * 购物车中的商品
+     */
     private List<Goods> cartGoodsList;
+    /**
+     * 购物车中的商品总数
+     */
     private int totalNumber;
+    /**
+     * 购物车中的商品总价
+     */
     private double totalPrice;
 
     public int getUserId() {

@@ -56,5 +56,20 @@ public final class JdbcUtil {
         }
     }
 
+    /**
+     * 回滚事务
+     *
+     * @param connection
+     */
+    public static void rollbackTransaction(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
     private JdbcUtil() {}
 }

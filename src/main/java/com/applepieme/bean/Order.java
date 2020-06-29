@@ -26,6 +26,11 @@ public class Order {
      */
     private int goodsId;
     /**
+     * 用户电话
+     * 对应order表中的userPhone
+     */
+    private String userPhone;
+    /**
      * 收获地址
      * 对应order表中的address
      */
@@ -75,6 +80,14 @@ public class Order {
         this.goodsId = goodsId;
     }
 
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -121,6 +134,7 @@ public class Order {
                 "orderId=" + orderId +
                 ", userId=" + userId +
                 ", goodsId=" + goodsId +
+                ", userPhone='" + userPhone + '\'' +
                 ", address='" + address + '\'' +
                 ", number=" + number +
                 ", totalPrice=" + totalPrice +

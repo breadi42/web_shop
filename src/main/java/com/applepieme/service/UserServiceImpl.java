@@ -22,4 +22,9 @@ public class UserServiceImpl implements UserService {
     public List<User> listUsers() {
         return dao.listUsers();
     }
+
+    @Override
+    public int addUser(User user) {
+        return dao.addUser(user);
+    }
 }

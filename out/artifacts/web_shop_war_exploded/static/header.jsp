@@ -87,13 +87,14 @@
             color: #eeeeee;
             margin-right: 15px;
         }
+
     </style>
 
     <script>
         $(function () {
             // 点击网站名称回到首页
             $('#demo-home').click(function () {
-                window.location.href = '${pageContext.request.contextPath}'
+                window.location.href = '${pageContext.request.contextPath}/index.go'
             })
 
             // 用户注销
@@ -147,7 +148,7 @@
                 <c:choose>
                     <c:when test="${sessionScope.manage == null}">
                         <span class="glyphicon glyphicon-shopping-cart header-icon" aria-hidden="true"></span>
-                        <a href="#" class="user-options">购物车</a>
+                        <a href="${pageContext.request.contextPath}/front_cart.go" class="user-options">购物车</a>
                     </c:when>
                     <c:otherwise>
                         <span class="glyphicon glyphicon-leaf header-icon" aria-hidden="true"></span>
@@ -164,7 +165,7 @@
                     </c:when>
                     <c:otherwise>
                         <a href="${pageContext.request.contextPath}/login.go" class="user-options">您好，请登录</a>
-                        <a href="#" class="user-options">免费注册</a>
+                        <a href="${pageContext.request.contextPath}/signup.go" class="user-options">免费注册</a>
                     </c:otherwise>
                 </c:choose>
             </div>

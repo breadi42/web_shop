@@ -18,4 +18,12 @@ public interface UserDAO {
      * @return List
      */
     List<User> listUsers();
+
+    /**
+     * 添加一个用户
+     *
+     * @param user
+     * @return int
+     */
+    int addUser(User user);
 }

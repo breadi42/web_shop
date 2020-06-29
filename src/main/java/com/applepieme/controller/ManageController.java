@@ -62,6 +62,7 @@ public class ManageController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         if ("manage".equals(username) && "manage".equals(password)) {
+            // 把管理员的用户名存放到session中
             req.getSession().setAttribute("manage", "manage");
             resp.getWriter().println(200);
         } else {
@@ -79,6 +80,7 @@ public class ManageController extends HttpServlet {
      */
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("manage") != null) {
+            // 清空session中的管理员用户名
             req.getSession().setAttribute("manage", null);
             resp.getWriter().println(200);
         } else {

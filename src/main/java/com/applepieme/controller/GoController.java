@@ -27,6 +27,22 @@ public class GoController extends HttpServlet {
         String pageInfo = req.getServletPath();
         // 从请求路径获取跳转信息
         pageInfo = pageInfo.substring(1, pageInfo.length() - 3);
+        // 点击标题回到对应的首页
+        if ("index".equals(pageInfo)) {
+            // 若用户已登录 则跳转到用户主页
+            if (req.getSession().getAttribute("userCart") != null) {
+                req.getRequestDispatcher("WEB-INF/front/welcome.jsp").forward(req, resp);
+                return;
+                // 若管理员已登录 则跳转到管理员主页
+            } else if (req.getSession().getAttribute("manage") != null) {
+                req.getRequestDispatcher("WEB-INF/manage/welcome.jsp").forward(req, resp);
+                return;
+                // 若没有登录 则跳转到主页
+            } else {
+                resp.sendRedirect("/web_shop");
+                return;
+            }
+        }
         // 把跳转信息分成两部分 第一部分是包名 第二部分是页面名称
         String[] tmp = pageInfo.split("_");
         // 请求转发到指定页面

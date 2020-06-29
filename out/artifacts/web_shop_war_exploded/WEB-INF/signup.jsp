@@ -1,32 +1,32 @@
 <%--
   Created by IntelliJ IDEA.
   User: applepieme@yeah.net
-  Date: 2020/6/28
-  Time: 17:09
+  Date: 2020/6/29
+  Time: 14:52
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>并 夕 夕 - 欢迎登录</title>
+    <title>并 夕 夕 - 欢迎注册</title>
     <jsp:include page="../static/header.jsp"/>
 
     <style type="text/css">
-        #login-box {
+        #signup-box {
             background: #556a89;
             border-radius: 5px;
             width: 400px;
-            height: 400px;
+            height: 520px;
             position: relative;
             left: 10%;
-            top: 80px;
+            top: 30px;
         }
 
-        #login-form {
+        #signup-form {
             width: 300px;
             position: relative;
             left: 12%;
-            top: 20%;
+            top: 12%;
         }
 
         .input-group {
@@ -47,16 +47,16 @@
             font-size: 16px;
         }
 
-        #signup-box {
+        #login-box {
             text-align: right;
         }
 
-        #signup-a {
+        #login-a {
             color: #eeeeee;
             text-decoration: none;
         }
 
-        #signup-a:hover {
+        #login-a:hover {
             color: #556a89;
             text-decoration: none;
             background: #eeeeee;
@@ -90,6 +90,7 @@
 
     <script>
         let captcha
+        let rPhone = /^([1][3,4,5,6,7,8,9])\d{9}$/
 
         // 生成验证码
         function createCaptcha() {
@@ -116,75 +117,37 @@
             }
         }
 
-        // 登录验证
         $(function () {
-            // 用户登录
-            $('#user-login').click(function () {
-                if ($('#username').val() === '') {
-                    $('#input-status').html('用户名不能为空!')
+            $('#user-signup').click(function () {
+                if ($('#phone').val() === '' || $('#username').val() === '' || $('#address').val() === ''
+                    || $('#pwd').val() === '' || $('#tpwd').val() === '') {
+                    $('#input-status').html('请填写所有信息!')
                     createCaptcha()
-                } else if ($('#password').val() === '') {
-                    $('#input-status').html('密码不能为空!')
+                } else if (!rPhone.test($('#phone').val())) {
+                    $('#input-status').html('请填写正确的手机号码!')
+                    createCaptcha()
+                } else if ($('#pwd').val() !== $('#tpwd').val()) {
+                    $('#input-status').html('两次输入的密码不同!')
                     createCaptcha()
                 } else {
-                    if ($('#input-captcha').val().toUpperCase() === captcha.toUpperCase()) {
-                        $.post('${pageContext.request.contextPath}/login.user', $('#login-form').serialize(),
-                            function (msg, status) {
-                                if (status === 'success') {
-                                    if (msg === 200) {
-                                        window.location.href = '${pageContext.request.contextPath}/front_welcome.go'
-                                    } else {
-                                        alert('登录失败!请检查用户名和密码!')
-                                        createCaptcha()
-                                    }
+                    $.post('${pageContext.request.contextPath}/signup.user', $('#signup-form').serialize(),
+                        function (msg, status) {
+                            if (status === 'success') {
+                                if (msg === 200) {
+                                    alert('注册成功!')
+                                    window.location.href = '${pageContext.request.contextPath}/login.go'
                                 } else {
-                                    alert('请求服务器失败!')
+                                    alert('注册失败!请重试!')
                                     createCaptcha()
                                 }
-                            })
-                    } else if ($('#input-captcha').val() === '') {
-                        $('#input-status').html('请输入验证码!')
-                        createCaptcha()
-                    } else {
-                        $('#input-status').html('验证码错误!')
-                        createCaptcha()
-                    }
+                            } else {
+                                alert('请求服务器失败!')
+                                createCaptcha()
+                            }
+                        })
                 }
             })
 
-            // 管理员登录
-            $('#manage-login').click(function () {
-                if ($('#username').val() === '') {
-                    $('#input-status').html('用户名不能为空!')
-                    createCaptcha()
-                } else if ($('#password').val() === '') {
-                    $('#input-status').html('密码不能为空!')
-                    createCaptcha()
-                } else {
-                    if ($('#input-captcha').val().toUpperCase() === captcha.toUpperCase()) {
-                        $.post('${pageContext.request.contextPath}/login.manage', $('#login-form').serialize(),
-                            function (msg, status) {
-                                if (status === 'success') {
-                                    if (msg === 200) {
-                                        window.location.href = '${pageContext.request.contextPath}/manage_welcome.go'
-                                    } else {
-                                        alert('登录失败!请检查用户名和密码!')
-                                        createCaptcha()
-                                    }
-                                } else {
-                                    alert('请求服务器失败!')
-                                    createCaptcha()
-                                }
-                            })
-                    } else if ($('#input-captcha').val() === '') {
-                        $('#input-status').html('请输入验证码!')
-                        createCaptcha()
-                    } else {
-                        $('#input-status').html('验证码错误!')
-                        createCaptcha()
-                    }
-                }
-            })
         })
     </script>
 
@@ -194,23 +157,41 @@
     <div class="row clearfix" id="login-bg">
         <div class="col-md-4 column"></div>
         <div class="col-md-4 column">
-            <div id="login-box">
+            <div id="signup-box">
                 <div id="box-title">
-                    <h3>用&nbsp户&nbsp登&nbsp录</h3>
+                    <h3>用&nbsp户&nbsp注&nbsp册</h3>
                 </div>
-                <form id="login-form">
+
+                <form id="signup-form">
                     <div class="input-group">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    </span>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
+                        </span>
+                        <input type="text" class="form-control" placeholder="手机号码" name="phone" id="phone">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        </span>
                         <input type="text" class="form-control" placeholder="用户名" name="username" id="username">
                     </div>
                     <div class="input-group">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                    </span>
-                        <input type="password" class="form-control" placeholder="密码" name="password"
-                               id="password">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                        </span>
+                        <input type="text" class="form-control" placeholder="收货地址" name="address" id="address">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        </span>
+                        <input type="password" class="form-control" placeholder="密码" name="password" id="pwd">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        </span>
+                        <input type="password" class="form-control" placeholder="确认密码" id="tpwd">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" id="captcha-addon">
@@ -219,18 +200,16 @@
                         <input type="text" placeholder="请输入验证码" name="captcha" class="form-control" id="input-captcha">
                     </div>
                     <div id="input-status"></div>
+
                     <div class="input-group" id="login-btn">
                         <div class="btn-group btn-group-justified" role="group">
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default" id="user-login">用户登录</button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default" id="manage-login">管理员登录</button>
+                                <button type="button" class="btn btn-default" id="user-signup">马上注册</button>
                             </div>
                         </div>
                     </div>
-                    <div id="signup-box">
-                        <a href="${pageContext.request.contextPath}/signup.go" id="signup-a">还没有账号？马上注册</a>
+                    <div id="login-box">
+                        <a href="${pageContext.request.contextPath}/login.go" id="login-a">已有账号？马上登录</a>
                     </div>
                 </form>
             </div>
@@ -238,6 +217,7 @@
         <div class="col-md-4 column"></div>
     </div>
 </div>
+
 
 <jsp:include page="../static/footer.jsp"/>
 </body>

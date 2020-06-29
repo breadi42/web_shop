@@ -61,12 +61,17 @@ public class UserController extends HttpServlet {
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        // 获取数据库中所有用户信息
         List<User> userList = userService.listUsers();
         for (User user : userList) {
+            // 当用户名和密码都正确时登录成功
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                // 为当前登录的用户创建一个购物车
                 Cart userCart = new Cart();
+                // 初始化用户id和用户名
                 userCart.setUserId(user.getUserId());
                 userCart.setUsername(username);
+                // 把购物车存放到session中
                 req.getSession().setAttribute("userCart", userCart);
                 resp.getWriter().println(200);
                 return;
@@ -85,7 +90,33 @@ public class UserController extends HttpServlet {
      */
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("userCart") != null) {
+            // 把购物车从session中清空
             req.getSession().setAttribute("userCart", null);
+            resp.getWriter().println(200);
+        } else {
+            resp.getWriter().println(400);
+        }
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void signup(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 创建一个用户对象
+        User user = new User();
+        // 用表单中的信息来初始化用户
+        user.setUsername(req.getParameter("username"));
+        user.setPassword(req.getParameter("password"));
+        user.setPhone(req.getParameter("phone"));
+        user.setAddress(req.getParameter("address"));
+        // 把用户信息保存到数据库中
+        int row = userService.addUser(user);
+        if (row >= 1) {
             resp.getWriter().println(200);
         } else {
             resp.getWriter().println(400);

@@ -43,6 +43,11 @@ public class Goods {
      * 对应goods表中的stock
      */
     private int stock;
+    /**
+     * 商品数量 数据库中不保存数据 用于方便购物车中商品数量的统计
+     * 对应goods表中的number
+     */
+    private int number;
 
     public int getGoodsId() {
         return goodsId;
@@ -100,16 +105,25 @@ public class Goods {
         this.stock = stock;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
-                "id=" + goodsId +
+                "goodsId=" + goodsId +
                 ", goodsName='" + goodsName + '\'' +
                 ", type='" + type + '\'' +
                 ", price=" + price +
                 ", image='" + image + '\'' +
                 ", details='" + details + '\'' +
                 ", stock=" + stock +
+                ", number=" + number +
                 '}';
     }
 }

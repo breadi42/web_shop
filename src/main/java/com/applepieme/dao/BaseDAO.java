@@ -2,6 +2,7 @@ package com.applepieme.dao;
 
 import com.applepieme.util.JdbcUtil;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.lang.reflect.ParameterizedType;
@@ -37,25 +38,25 @@ public class BaseDAO<T> {
         // 如果superClass是ParameterizedType的实例
         if (superClass instanceof ParameterizedType) {
             // 把superClass转换成ParameterizedType类型
-            ParameterizedType pType = (ParameterizedType)superClass;
+            ParameterizedType pType = (ParameterizedType) superClass;
             // 获取父类的泛型参数的实际类型
             Type actualType = pType.getActualTypeArguments()[0];
             // 如果actualType是Class的实例
             if (actualType instanceof Class) {
                 // 初始化clazz为泛型的实际类型
-                clazz = (Class<T>)actualType;
+                clazz = (Class<T>) actualType;
             }
         }
     }
 
     /**
-     * 获取多条记录的方法
+     * 获取多条记录
      *
      * @param sql
      * @param args
      * @return
      */
-    public T getList(String sql,Object... args) {
+    public T getList(String sql, Object... args) {
         Connection connection = null;
         List<T> list = null;
         try {
@@ -69,6 +70,55 @@ public class BaseDAO<T> {
             // 关闭Connection对象
             JdbcUtil.closeConnection(connection);
         }
-        return (T)list;
+        return (T) list;
+    }
+
+    /**
+     * insert、delete、update方法
+     *
+     * @param sql
+     * @param args
+     * @return
+     */
+    public int update(String sql, Object... args) {
+        Connection connection = null;
+        // 更新记录行数
+        int row = 0;
+        try {
+            connection = JdbcUtil.getConnection();
+            // 调用update方法 更新数据库
+            row = queryRunner.update(connection, sql, args);
+        } catch (Exception e) {
+            // 异常时回滚事务
+            JdbcUtil.rollbackTransaction(connection);
+            e.printStackTrace();
+        } finally {
+            // 关闭Connection对象
+            JdbcUtil.closeConnection(connection);
+        }
+        return row;
+    }
+
+    /**
+     * 查询一条数据，封装成一个对象
+     *
+     * @param sql
+     * @param args
+     * @return
+     */
+    public T getEntity(String sql, Object... args) {
+        Connection connection = null;
+        T entity = null;
+        try {
+            connection = JdbcUtil.getConnection();
+            // 调用query方法 把结果集中的第一条数据封装到一个数据对象中
+            entity = queryRunner.query(connection, sql, new BeanHandler<>(clazz), args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭Connection对象
+            JdbcUtil.closeConnection(connection);
+        }
+        return entity;
     }
 }
