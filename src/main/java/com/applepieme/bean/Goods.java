@@ -10,7 +10,7 @@ package com.applepieme.bean;
 public class Goods {
     /**
      * 商品id
-     * 对应goods表中的goods_id
+     * 对应goods表中的goodsId
      */
     private int goodsId;
     /**

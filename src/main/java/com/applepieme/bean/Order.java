@@ -12,17 +12,17 @@ import java.sql.Date;
 public class Order {
     /**
      * 订单id
-     * 对应order表中的order_id
+     * 对应order表中的orderId
      */
     private int orderId;
     /**
      * 用户id
-     * 对应order表中的user_id
+     * 对应order表中的userId
      */
     private int userId;
     /**
      * 商品id
-     * 对应order表中的goods_id
+     * 对应order表中的goodsId
      */
     private int goodsId;
     /**
@@ -37,7 +37,7 @@ public class Order {
     private int number;
     /**
      * 商品总价
-     * 对应order表中的total_price
+     * 对应order表中的totalPrice
      */
     private double totalPrice;
     /**

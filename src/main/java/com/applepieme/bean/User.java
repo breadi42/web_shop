@@ -10,7 +10,7 @@ package com.applepieme.bean;
 public class User {
     /**
      * 用户id
-     * 对应user表中的user_id
+     * 对应user表中的userId
      */
     private int userId;
     /**

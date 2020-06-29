@@ -66,7 +66,7 @@
             border-radius: 3px;
         }
 
-        #shopping-cart {
+        .header-icon {
             color: #eeeeee;
         }
 
@@ -83,6 +83,10 @@
             left: 150px;
         }
 
+        #manage-font {
+            color: #eeeeee;
+            margin-right: 15px;
+        }
     </style>
 
     <script>
@@ -92,16 +96,33 @@
                 window.location.href = '${pageContext.request.contextPath}'
             })
 
-            // 注销
-            $('#logout').click(function () {
+            // 用户注销
+            $('#user-logout').click(function () {
                 $.get('${pageContext.request.contextPath}/logout.user', function (msg, status) {
                     if (status === 'success') {
                         if (msg === 200) {
                             window.location.href = '${pageContext.request.contextPath}'
                         } else {
                             alert('请先登录!')
+                            window.location.href = '${pageContext.request.contextPath}/login.go'
                         }
                     } else {
+                        alert('请求服务器失败!')
+                    }
+                })
+            })
+
+            // 管理员注销
+            $('#manage-logout').click(function () {
+                $.get('${pageContext.request.contextPath}/logout.manage', function (msg, status) {
+                    if (status === 'success') {
+                        if (msg === 200) {
+                            window.location.href = '${pageContext.request.contextPath}'
+                        } else {
+                            alert('请先登录!')
+                            window.location.href = '${pageContext.request.contextPath}/login.go'
+                        }
+                    }else {
                         alert('请求服务器失败!')
                     }
                 })
@@ -123,12 +144,23 @@
         </div>
         <div class="col-md-8">
             <div class="options">
-                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" id="shopping-cart"></span>
-                <a href="#" class="user-options">购物车</a>
+                <c:choose>
+                    <c:when test="${sessionScope.manage == null}">
+                        <span class="glyphicon glyphicon-shopping-cart header-icon" aria-hidden="true"></span>
+                        <a href="#" class="user-options">购物车</a>
+                    </c:when>
+                    <c:otherwise>
+                        <span class="glyphicon glyphicon-leaf header-icon" aria-hidden="true"></span>
+                    </c:otherwise>
+                </c:choose>
                 <c:choose>
                     <c:when test="${sessionScope.userCart != null}">
                         <a href="#" class="user-options">欢迎，${sessionScope.userCart.username}</a>
-                        <a href="#" class="user-options" id="logout">注销</a>
+                        <a href="#" class="user-options" id="user-logout">注销</a>
+                    </c:when>
+                    <c:when test="${sessionScope.manage != null}">
+                        <span id="manage-font">管理员：${sessionScope.manage}</span>
+                        <a href="#" class="user-options" id="manage-logout">注销</a>
                     </c:when>
                     <c:otherwise>
                         <a href="${pageContext.request.contextPath}/login.go" class="user-options">您好，请登录</a>

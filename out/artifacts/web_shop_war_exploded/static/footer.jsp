@@ -46,7 +46,7 @@
                     <a rel="nofollow" href="https://github.com/ApplePieme/web_shop"
                        class="footer-options">项目GitHub地址</a> |
                     <a rel="nofollow" href="https://www.bootcss.com/" class="footer-options">Bootstrap中文网</a> |
-                    <a rel="nofollow" href="http://glyphicons.com/" class="footer-options">图标来自Glyphicon</a>
+                    <a rel="nofollow" href="http://glyphicons.com/" class="footer-options">图标Glyphicon</a>
                     <br><span id="copy">Copy&nbspapplepieme</span>
                 </div>
             </div>

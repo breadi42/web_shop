@@ -50,10 +50,36 @@ public class ManageController extends HttpServlet {
         }
     }
 
+    /**
+     * 管理员登录
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        if ("admin".equals(username) && "admin".equals(password)) {
+        if ("manage".equals(username) && "manage".equals(password)) {
+            req.getSession().setAttribute("manage", "manage");
+            resp.getWriter().println(200);
+        } else {
+            resp.getWriter().println(400);
+        }
+    }
+
+    /**
+     * 管理员注销
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getSession().getAttribute("manage") != null) {
+            req.getSession().setAttribute("manage", null);
             resp.getWriter().println(200);
         } else {
             resp.getWriter().println(400);

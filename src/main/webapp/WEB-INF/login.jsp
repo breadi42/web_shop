@@ -106,6 +106,7 @@
 
         // 登录验证
         $(function () {
+            // 用户登录
             $('#user-login').click(function () {
                 if ($('#username').val() === '') {
                     $('#input-status').html('用户名不能为空!')
@@ -117,7 +118,39 @@
                             function (msg, status) {
                                 if (status === 'success') {
                                     if (msg === 200) {
-                                        window.location.href = '${pageContext.request.contextPath}'
+                                        window.location.href = '${pageContext.request.contextPath}/front_welcome.go'
+                                    } else {
+                                        alert('登录失败!请检查用户名和密码!')
+                                        createCaptcha()
+                                    }
+                                } else {
+                                    alert('请求服务器失败!')
+                                    createCaptcha()
+                                }
+                            })
+                    } else if ($('#input-captcha').val() === '') {
+                        $('#input-status').html('请输入验证码!')
+                        createCaptcha()
+                    } else {
+                        $('#input-status').html('验证码错误!')
+                        createCaptcha()
+                    }
+                }
+            })
+
+            // 管理员登录
+            $('#manage-login').click(function () {
+                if ($('#username').val() === '') {
+                    $('#input-status').html('用户名不能为空!')
+                } else if ($('#password').val() === '') {
+                    $('#input-status').html('密码不能为空!')
+                } else {
+                    if ($('#input-captcha').val().toUpperCase() === captcha.toUpperCase()) {
+                        $.post('${pageContext.request.contextPath}/login.manage', $('#login-form').serialize(),
+                            function (msg, status) {
+                                if (status === 'success') {
+                                    if (msg === 200) {
+                                        window.location.href = '${pageContext.request.contextPath}/manage_welcome.go'
                                     } else {
                                         alert('登录失败!请检查用户名和密码!')
                                         createCaptcha()
