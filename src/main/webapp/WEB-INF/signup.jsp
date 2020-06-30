@@ -17,8 +17,8 @@
             border-radius: 5px;
             width: 400px;
             height: 520px;
-            position: relative;
-            left: 10%;
+            position: absolute;
+            left: 0;
             top: 30px;
         }
 
@@ -39,12 +39,6 @@
 
         #login-btn {
             margin-top: 15px;
-        }
-
-        #input-status {
-            height: 30px;
-            color: red;
-            font-size: 16px;
         }
 
         #login-box {
@@ -121,30 +115,36 @@
             $('#user-signup').click(function () {
                 if ($('#phone').val() === '' || $('#username').val() === '' || $('#address').val() === ''
                     || $('#pwd').val() === '' || $('#tpwd').val() === '') {
-                    $('#input-status').html('请填写所有信息!')
+                    toastr.warning('请填写所有信息!')
                     createCaptcha()
                 } else if (!rPhone.test($('#phone').val())) {
-                    $('#input-status').html('请填写正确的手机号码!')
+                    toastr.warning('请填写正确的手机号码!')
                     createCaptcha()
                 } else if ($('#pwd').val() !== $('#tpwd').val()) {
-                    $('#input-status').html('两次输入的密码不同!')
+                    toastr.warning('两次输入的密码不同!')
                     createCaptcha()
                 } else {
-                    $.post('${pageContext.request.contextPath}/signup.user', $('#signup-form').serialize(),
-                        function (msg, status) {
-                            if (status === 'success') {
-                                if (msg === 200) {
-                                    alert('注册成功!')
-                                    window.location.href = '${pageContext.request.contextPath}/login.go'
+                    if ($('#input-captcha').val().toUpperCase() === captcha.toUpperCase()) {
+                        $.post('${pageContext.request.contextPath}/signup.user', $('#signup-form').serialize(),
+                            function (msg, status) {
+                                if (status === 'success') {
+                                    if (msg === 200) {
+                                        window.location.href = '${pageContext.request.contextPath}/login.go'
+                                    } else {
+                                        toastr.error('注册失败!请重试!')
+                                        createCaptcha()
+                                    }
                                 } else {
-                                    alert('注册失败!请重试!')
+                                    toastr.error('请求服务器失败!')
                                     createCaptcha()
                                 }
-                            } else {
-                                alert('请求服务器失败!')
-                                createCaptcha()
-                            }
-                        })
+                            })
+                    } else if ($('#input-captcha').val() === '') {
+                        toastr.warning('请输入验证码!')
+                    } else {
+                        toastr.error('验证码错误!')
+                        createCaptcha()
+                    }
                 }
             })
         })
@@ -198,7 +198,6 @@
                         </span>
                         <input type="text" placeholder="请输入验证码" name="captcha" class="form-control" id="input-captcha">
                     </div>
-                    <div id="input-status"></div>
 
                     <div class="input-group" id="login-btn">
                         <div class="btn-group btn-group-justified" role="group">

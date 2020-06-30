@@ -1,14 +1,13 @@
 <%--
   Created by IntelliJ IDEA.
   User: applepieme@yeah.net
-  Date: 2020/6/27
-  Time: 22:17
+  Date: 2020/6/30
+  Time: 10:44
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
     <title>并 夕 夕</title>
     <meta charset="utf-8">
@@ -16,81 +15,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.css"/>
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap-theme.css"/>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/static/css/toastr.css"/>
     <script src="${pageContext.request.contextPath}/static/js/jquery.js"></script>
     <script src="${pageContext.request.contextPath}/static/js/bootstrap.js"></script>
-
-    <style type="text/css">
-        html, body {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-
-        .container {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        .header-footer {
-            background: #556a89;
-            margin: 0;
-        }
-
-        .shop-title {
-            text-align: center;
-            color: aliceblue;
-            line-height: 0;
-        }
-
-        .options {
-            position: absolute;
-            left: 70%;
-            top: 10%;
-            transform: translate(0, 400%);
-            line-height: 0;
-        }
-
-        .user-options {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #eeeeee;
-            font-size: 14px;
-        }
-
-        .user-options:hover {
-            background: #eeeeee;
-            color: #556a89;
-            text-decoration: none;
-            border-radius: 3px;
-        }
-
-        .header-icon {
-            color: #eeeeee;
-        }
-
-        .page-header {
-            height: 30px;
-        }
-
-        #demo-home {
-            cursor: pointer;
-        }
-
-        #memo {
-            position: relative;
-            left: 150px;
-        }
-
-        #manage-font {
-            color: #eeeeee;
-            margin-right: 15px;
-        }
-
-    </style>
+    <script src="${pageContext.request.contextPath}/static/js/toastr.js"></script>
 
     <script>
+        // toastr配置
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-center",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
         $(function () {
             // 点击网站名称回到首页
             $('#demo-home').click(function () {
@@ -102,7 +51,7 @@
                 $.get('${pageContext.request.contextPath}/logout.user', function (msg, status) {
                     if (status === 'success') {
                         if (msg === 200) {
-                            window.location.href = '${pageContext.request.contextPath}'
+                            window.location.href = '${pageContext.request.contextPath}/front_welcome.go'
                         } else {
                             alert('请先登录!')
                             window.location.href = '${pageContext.request.contextPath}/login.go'
@@ -118,7 +67,7 @@
                 $.get('${pageContext.request.contextPath}/logout.manage', function (msg, status) {
                     if (status === 'success') {
                         if (msg === 200) {
-                            window.location.href = '${pageContext.request.contextPath}'
+                            window.location.href = '${pageContext.request.contextPath}/front_welcome.go'
                         } else {
                             alert('请先登录!')
                             window.location.href = '${pageContext.request.contextPath}/login.go'
@@ -128,49 +77,99 @@
                     }
                 })
             })
+
         })
+
     </script>
 
+    <style type="text/css">
+        body {
+            margin-bottom: 60px;
+        }
+
+        .header-footer {
+            background: #556a89;
+        }
+
+        .page-header {
+            color: #eeeeee;
+            margin: 0;
+            border-bottom: 0;
+            cursor: pointer;
+        }
+
+        .glyphicon-trash {
+            margin-right: 10px;
+            font-size: 50px;
+        }
+
+        .plah {
+            height: 60px;
+        }
+
+        .glyphicon-shopping-cart, .glyphicon-leaf {
+            color: #eeeeee;
+            margin-right: -15px;
+        }
+
+        .options, .option {
+            margin: 0 15px 0 15px;
+            color: #eeeeee;
+            text-decoration: none;
+        }
+
+        .option:hover {
+            text-decoration: none;
+            color: #556a89;
+            background: #eeeeee;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div class="row header-footer">
         <div class="col-md-4">
-            <div class="page-header" id="demo-home">
-                <h1 class="shop-title">
-                    并&nbsp夕&nbsp夕
+            <div class="page-header text-right" id="demo-home">
+                <h1>
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    并 夕 夕 <small>全宇宙都在并的购物网站!</small>
                 </h1>
-                <div class="shop-title" id="memo">全宇宙都在并的购物网站!!!</div>
             </div>
         </div>
+
         <div class="col-md-8">
-            <div class="options">
+            <div class="text-right plah"></div>
+            <div class="text-right options">
                 <c:choose>
                     <c:when test="${sessionScope.manage == null}">
-                        <span class="glyphicon glyphicon-shopping-cart header-icon" aria-hidden="true"></span>
-                        <a href="${pageContext.request.contextPath}/front_cart.go" class="user-options">购物车</a>
+                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                        <a href="${pageContext.request.contextPath}/front_cart.go" class="option">购物车</a>
                     </c:when>
                     <c:otherwise>
-                        <span class="glyphicon glyphicon-leaf header-icon" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
                     </c:otherwise>
                 </c:choose>
                 <c:choose>
                     <c:when test="${sessionScope.userCart != null}">
-                        <a href="#" class="user-options">欢迎，${sessionScope.userCart.username}</a>
-                        <a href="#" class="user-options" id="user-logout">注销</a>
+                        <a href="${pageContext.request.contextPath}/front_order.go" class="option">我的订单</a>
+                        <a href="${pageContext.request.contextPath}/front_userInfo.go" class="option">
+                            欢迎，${sessionScope.userCart.username}
+                        </a>
+                        <a href="#" class="option" id="user-logout">注销</a>
                     </c:when>
                     <c:when test="${sessionScope.manage != null}">
-                        <span id="manage-font">管理员：${sessionScope.manage}</span>
-                        <a href="#" class="user-options" id="manage-logout">注销</a>
+                        <span id="manage-font" class="option">管理员：${sessionScope.manage}</span>
+                        <a href="#" class="option" id="manage-logout">注销</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/login.go" class="user-options">您好，请登录</a>
-                        <a href="${pageContext.request.contextPath}/signup.go" class="user-options">免费注册</a>
+                        <a href="${pageContext.request.contextPath}/login.go" class="option">您好，请登录</a>
+                        <a href="${pageContext.request.contextPath}/signup.go" class="option">免费注册</a>
                     </c:otherwise>
                 </c:choose>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>

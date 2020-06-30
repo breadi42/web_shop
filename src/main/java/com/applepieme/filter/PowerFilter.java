@@ -29,7 +29,8 @@ public class PowerFilter implements Filter {
                 req.getSession().getAttribute("manage") != null) {
             chain.doFilter(request, response);
             // 部分页面不拦截
-        } else if ("/login.go".equals(path) || "/index.go".equals(path) || "/signup.go".equals(path)) {
+        } else if ("/login.go".equals(path) || "/index.go".equals(path) || "/signup.go".equals(path) ||
+                "/front_welcome.go".equals(path)) {
             chain.doFilter(request, response);
             // 不符合条件 跳转到登录页面
         } else {

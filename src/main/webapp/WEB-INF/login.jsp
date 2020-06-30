@@ -17,8 +17,8 @@
             border-radius: 5px;
             width: 400px;
             height: 400px;
-            position: relative;
-            left: 10%;
+            position: absolute;
+            left: 0;
             top: 80px;
         }
 
@@ -39,12 +39,6 @@
 
         #login-btn {
             margin-top: 15px;
-        }
-
-        #input-status {
-            height: 30px;
-            color: red;
-            font-size: 16px;
         }
 
         #signup-box {
@@ -91,6 +85,14 @@
     <script>
         let captcha
 
+        function message() {
+            let href = window.location.href
+            href = href.split('/')
+            if (href[4] === 'front_cart.go') {
+                toastr.info('登录后更多精彩!')
+            }
+        }
+
         // 生成验证码
         function createCaptcha() {
             // 清空验证码输入框
@@ -121,10 +123,10 @@
             // 用户登录
             $('#user-login').click(function () {
                 if ($('#username').val() === '') {
-                    $('#input-status').html('用户名不能为空!')
+                    toastr.warning('用户名不能为空!')
                     createCaptcha()
                 } else if ($('#password').val() === '') {
-                    $('#input-status').html('密码不能为空!')
+                    toastr.warning('密码不能为空!')
                     createCaptcha()
                 } else {
                     if ($('#input-captcha').val().toUpperCase() === captcha.toUpperCase()) {
@@ -134,19 +136,19 @@
                                     if (msg === 200) {
                                         window.location.href = '${pageContext.request.contextPath}/front_welcome.go'
                                     } else {
-                                        alert('登录失败!请检查用户名和密码!')
+                                        toastr.error('登录失败!请检查用户名和密码!')
                                         createCaptcha()
                                     }
                                 } else {
-                                    alert('请求服务器失败!')
+                                    toastr.error('请求服务器失败!')
                                     createCaptcha()
                                 }
                             })
                     } else if ($('#input-captcha').val() === '') {
-                        $('#input-status').html('请输入验证码!')
+                        toastr.warning('请输入验证码!')
                         createCaptcha()
                     } else {
-                        $('#input-status').html('验证码错误!')
+                        toastr.error('验证码错误!')
                         createCaptcha()
                     }
                 }
@@ -189,7 +191,7 @@
     </script>
 
 </head>
-<body onload="createCaptcha()">
+<body onload="createCaptcha(); message()">
 <div class="container">
     <div class="row clearfix" id="login-bg">
         <div class="col-md-4 column"></div>
@@ -218,7 +220,6 @@
                         </span>
                         <input type="text" placeholder="请输入验证码" name="captcha" class="form-control" id="input-captcha">
                     </div>
-                    <div id="input-status"></div>
                     <div class="input-group" id="login-btn">
                         <div class="btn-group btn-group-justified" role="group">
                             <div class="btn-group" role="group">

@@ -6,15 +6,32 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <title>并 夕 夕</title>
-    <jsp:include page="static/header.jsp"/>
+    <script>
+
+
+        // $(function () {
+        //     $('#goods-all').click(function () {
+        //         $('#selected').html($('#goods-all').html() + '<span class="caret"></span>')
+        //     })
+        //     $('#goods-a').click(function () {
+        //         $('#selected').html($('#goods-a').html() + '<span class="caret"></span>')
+        //     })
+        //     $('#goods-b').click(function () {
+        //         $('#selected').html($('#goods-b').html() + '<span class="caret"></span>')
+        //     })
+        //     $('#goods-c').click(function () {
+        //         $('#selected').html($('#goods-c').html() + '<span class="caret"></span>')
+        //     })
+        // })
+    </script>
+
 </head>
 <body>
-
-
-<jsp:include page="static/footer.jsp"/>
+<c:redirect url="welcome.user"/>
 </body>
 </html>

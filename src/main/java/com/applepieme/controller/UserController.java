@@ -122,4 +122,16 @@ public class UserController extends HttpServlet {
             resp.getWriter().println(400);
         }
     }
+
+    /**
+     * 用户主页 获取商品数据
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void welcome(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("initIndex.goods").forward(req, resp);
+    }
 }
