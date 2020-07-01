@@ -9,11 +9,11 @@
 <html>
 <head>
     <title>并 夕 夕</title>
-    <jsp:include page="../../static/header.jsp"/>
+    <jsp:include page="/static/header.jsp"/>
 </head>
 <body>
 个人信息
 
-<jsp:include page="../../static/footer.jsp"/>
+<jsp:include page="/static/footer.jsp"/>
 </body>
 </html>

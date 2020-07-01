@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>并 夕 夕 - 欢迎登录</title>
-    <jsp:include page="../static/header.jsp"/>
+    <jsp:include page="/static/header.jsp"/>
 
     <style type="text/css">
         #login-box {
@@ -134,7 +134,7 @@
                             function (msg, status) {
                                 if (status === 'success') {
                                     if (msg === 200) {
-                                        window.location.href = '${pageContext.request.contextPath}/front_welcome.page'
+                                        window.location.href = '${pageContext.request.contextPath}/welcome.user'
                                     } else {
                                         toastr.error('登录失败!请检查用户名和密码!')
                                         createCaptcha()
@@ -240,6 +240,6 @@
     </div>
 </div>
 
-<jsp:include page="../static/footer.jsp"/>
+<jsp:include page="/static/footer.jsp"/>
 </body>
 </html>

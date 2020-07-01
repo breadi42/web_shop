@@ -9,11 +9,11 @@
 <html>
 <head>
     <title>并 夕 夕</title>
-    <jsp:include page="../../static/header.jsp"/>
+    <jsp:include page="/static/header.jsp"/>
 </head>
 <body>
 我的订单
 
-<jsp:include page="../../static/footer.jsp"/>
+<jsp:include page="/static/footer.jsp"/>
 </body>
 </html>

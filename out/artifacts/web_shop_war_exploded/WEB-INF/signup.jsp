@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>并 夕 夕 - 欢迎注册</title>
-    <jsp:include page="../static/header.jsp"/>
+    <jsp:include page="/static/header.jsp"/>
 
     <style type="text/css">
         #signup-box {
@@ -216,6 +216,6 @@
     </div>
 </div>
 
-<jsp:include page="../static/footer.jsp"/>
+<jsp:include page="/static/footer.jsp"/>
 </body>
 </html>

@@ -51,7 +51,7 @@
                 $.get('${pageContext.request.contextPath}/logout.user', function (msg, status) {
                     if (status === 'success') {
                         if (msg === 200) {
-                            window.location.href = '${pageContext.request.contextPath}/front_welcome.page'
+                            window.location.href = '${pageContext.request.contextPath}/welcome.user'
                         } else {
                             alert('请先登录!')
                             window.location.href = '${pageContext.request.contextPath}/login.page'

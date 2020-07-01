@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>并 夕 夕</title>
-    <jsp:include page="../../static/header.jsp"/>
+    <jsp:include page="/static/header.jsp"/>
 
     <style>
         h3 {
@@ -109,6 +109,6 @@
     </div>
 </div>
 
-<jsp:include page="../../static/footer.jsp"/>
+<jsp:include page="/static/footer.jsp"/>
 </body>
 </html>
