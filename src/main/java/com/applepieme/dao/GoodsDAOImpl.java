@@ -17,17 +17,21 @@ public class GoodsDAOImpl extends BaseDAO<Goods> implements GoodsDAO {
 
     @Override
     public List<Goods> listGoodsByType(String type) {
-        return null;
+        String sql = "select * from goods where type=?";
+        return (List<Goods>) super.getList(sql, type);
     }
 
     @Override
     public Goods getGoodsById(int id) {
-        return null;
+        String sql = "select * from goods where goodsId=?";
+        return super.getEntity(sql, id);
     }
 
     @Override
     public List<Goods> listGoodsByKey(String key) {
-        return null;
+        key = "%" + key + "%";
+        String sql = "select * from goods where goodsname like ?";
+        return (List<Goods>) super.getList(sql, key);
     }
 
     @Override

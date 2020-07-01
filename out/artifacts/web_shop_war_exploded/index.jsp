@@ -11,25 +11,6 @@
 <html lang="zh-CN">
 <head>
     <title>并 夕 夕</title>
-    <script>
-
-
-        // $(function () {
-        //     $('#goods-all').click(function () {
-        //         $('#selected').html($('#goods-all').html() + '<span class="caret"></span>')
-        //     })
-        //     $('#goods-a').click(function () {
-        //         $('#selected').html($('#goods-a').html() + '<span class="caret"></span>')
-        //     })
-        //     $('#goods-b').click(function () {
-        //         $('#selected').html($('#goods-b').html() + '<span class="caret"></span>')
-        //     })
-        //     $('#goods-c').click(function () {
-        //         $('#selected').html($('#goods-c').html() + '<span class="caret"></span>')
-        //     })
-        // })
-    </script>
-
 </head>
 <body>
 <c:redirect url="welcome.user"/>

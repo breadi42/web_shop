@@ -44,8 +44,7 @@ public class Goods {
      */
     private int stock;
     /**
-     * 商品数量 数据库中不保存数据 用于方便购物车中商品数量的统计
-     * 对应goods表中的number
+     * 商品数量 方便购物车中商品数量的统计
      */
     private int number;
 

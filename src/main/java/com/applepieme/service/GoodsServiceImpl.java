@@ -20,17 +20,17 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> listGoodsByType(String type) {
-        return null;
+        return dao.listGoodsByType(type);
     }
 
     @Override
     public Goods getGoodsById(int id) {
-        return null;
+        return dao.getGoodsById(id);
     }
 
     @Override
     public List<Goods> listGoodsByKey(String key) {
-        return null;
+        return dao.listGoodsByKey(key);
     }
 
     @Override

@@ -83,6 +83,10 @@
     </script>
 
     <style type="text/css">
+        .container-fluid {
+            margin-right: calc(100% - 100vw);
+        }
+
         body {
             margin-bottom: 60px;
         }

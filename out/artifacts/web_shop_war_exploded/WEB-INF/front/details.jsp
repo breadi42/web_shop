@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: applepieme@yeah.net
   Date: 2020/7/1
-  Time: 9:50
+  Time: 15:54
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -17,21 +17,13 @@
             color: #000000;
         }
 
-        #hot-goods img, .goods img {
+        #hot-goods img {
             width: 100px;
             height: 120px;
             margin-right: 20px;
         }
 
         .hot-txt {
-            display: inline-block;
-        }
-
-        .goods {
-            margin: 0 10px 10px 0;
-            padding: 0;
-            width: 200px;
-            height: 200px;
             display: inline-block;
         }
 
@@ -43,12 +35,88 @@
             color: #ff0000;
         }
 
+        .detail-price {
+            line-height: 35px;
+        }
+
         .detail, .detail:hover {
             text-decoration: none;
         }
+
+        #bigimg {
+            height: 300px;
+            margin-right: 20px;
+        }
+
+        #details {
+            display: inline-block;
+            width: 500px;
+            overflow: hidden;
+        }
+
+        .btn-group-justified {
+            width: 50%;
+        }
+
+        #addCart {
+            background: #ee8625;
+            color: #eeeeee;
+        }
+
+        #buyNow {
+            background: #d22719;
+            color: #eeeeee;
+        }
+
+        .goods-num-box {
+            width: 190px;
+            margin: 10px 0 15px 0;
+        }
+
+        #goods-num {
+            height: 28px;
+        }
+
     </style>
 
     <script>
+        let isnum = /^[0-9]*$/;
+
+        $(function () {
+            $('#plus').click(function () {
+                $('#goods-num').val(parseInt($('#goods-num').val()) + 1)
+            })
+            $('#minus').click(function () {
+                if ($('#goods-num').val() <= 1) {
+                    $('#goods-num').val(1)
+                } else {
+                    $('#goods-num').val(parseInt($('#goods-num').val()) - 1)
+                }
+            })
+            $('#goods-num').blur(function () {
+                if (!isnum.test($('#goods-num').val())) {
+                    $('#goods-num').val(1)
+                }
+            })
+
+            $('#addCart').click(function () {
+                $.post('${pageContext.request.contextPath}/addCart.goods',
+                    {number : $('#goods-num').val(), id : $('#id').val()}, function (msg, status) {
+                        if (status === 'success') {
+                            if (msg === 200) {
+                                toastr.success('添加成功!快去看看吧!')
+                            } else if (msg === 300) {
+                                toastr.warning('登录后就可以愉快地购物啦!')
+                            } else {
+                                toastr.error('添加失败!请重试!')
+                            }
+                        } else {
+                            toastr.error('请求服务器失败!')
+                        }
+                    })
+            })
+        })
+
         function checkKey() {
             if ($('#key').val() === '') {
                 toastr.warning('请输入关键字!')
@@ -75,7 +143,7 @@
                             <span class="name">${goods.goodsName}</span>
                             <strong class="price">
                                 <span class="glyphicon glyphicon-yen" aria-hidden="true"></span>
-                                ${goods.price}
+                                    ${goods.price}
                             </strong>
                             <a href="${pageContext.request.contextPath}/details.goods?id=${goods.goodsId}" class="detail">查看详情</a>
                         </div>
@@ -144,45 +212,41 @@
             </nav>
 
             <div>
-                <c:forEach items="${requestScope.goodsList}" var="goods">
-                    <div class="goods text-center">
-                        <img src="${pageContext.request.contextPath}/static/img/goods/${goods.image}" alt="">
-                        <span class="name">${goods.goodsName}</span>
-                        <strong class="price">
-                            <span class="glyphicon glyphicon-yen" aria-hidden="true"></span>
-                            ${goods.price}
-                        </strong>
-                        <a href="${pageContext.request.contextPath}/details.goods?id=${goods.goodsId}" class="detail">查看详情</a>
+                <img src="${pageContext.request.contextPath}/static/img/goods/${requestScope.goods.image}" alt="" id="bigimg">
+                <div id="details">
+                    <div class="detail-txt">
+                        <span>${requestScope.goods.details}</span>
                     </div>
-                </c:forEach>
-            </div>
+                    <strong class="price detail-price">
+                        <span class="glyphicon glyphicon-yen" aria-hidden="true"></span>
+                        ${requestScope.goods.price}
+                    </strong>
+                    <span>库存:${requestScope.goods.stock}</span>
 
-            <c:if test="${requestScope.array != null}">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li class="disabled">
-                        <span aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </span>
-                        </li>
-                        <c:forEach items="${requestScope.array}" var="i" end="${requestScope.total - 1}">
-                            <c:choose>
-                                <c:when test="${requestScope.page == i}">
-                                    <li class="active"><span>${i}</span></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><a href="${pageContext.request.contextPath}/query${requestScope.type}.goods?page=${i}">${i}</a></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <li class="disabled">
-                        <span aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </span>
-                        </li>
-                    </ul>
-                </nav>
-            </c:if>
+                    <div>
+                        <div class="input-group goods-num-box">
+                            <span class="input-group-addon">数量</span>
+                            <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="minus">
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                            </button>
+                            </span>
+                            <input type="text" class="form-control text-center" value="1" id="goods-num" name="number">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="plus">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="id" id="id" value="${requestScope.goods.goodsId}">
+                    <div class="btn-group btn-group-justified" role="group">
+                        <a href="#" class="btn" id="addCart">加入购物车</a>
+                        <a href="#" class="btn" id="buyNow">立即购买</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
