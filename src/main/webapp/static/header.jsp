@@ -43,7 +43,7 @@
         $(function () {
             // 点击网站名称回到首页
             $('#demo-home').click(function () {
-                window.location.href = '${pageContext.request.contextPath}/index.go'
+                window.location.href = '${pageContext.request.contextPath}/index.page'
             })
 
             // 用户注销
@@ -51,10 +51,10 @@
                 $.get('${pageContext.request.contextPath}/logout.user', function (msg, status) {
                     if (status === 'success') {
                         if (msg === 200) {
-                            window.location.href = '${pageContext.request.contextPath}/front_welcome.go'
+                            window.location.href = '${pageContext.request.contextPath}/front_welcome.page'
                         } else {
                             alert('请先登录!')
-                            window.location.href = '${pageContext.request.contextPath}/login.go'
+                            window.location.href = '${pageContext.request.contextPath}/login.page'
                         }
                     } else {
                         alert('请求服务器失败!')
@@ -67,10 +67,10 @@
                 $.get('${pageContext.request.contextPath}/logout.manage', function (msg, status) {
                     if (status === 'success') {
                         if (msg === 200) {
-                            window.location.href = '${pageContext.request.contextPath}/front_welcome.go'
+                            window.location.href = '${pageContext.request.contextPath}/front_welcome.page'
                         } else {
                             alert('请先登录!')
-                            window.location.href = '${pageContext.request.contextPath}/login.go'
+                            window.location.href = '${pageContext.request.contextPath}/login.page'
                         }
                     }else {
                         alert('请求服务器失败!')
@@ -143,7 +143,7 @@
                 <c:choose>
                     <c:when test="${sessionScope.manage == null}">
                         <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                        <a href="${pageContext.request.contextPath}/front_cart.go" class="option">购物车</a>
+                        <a href="${pageContext.request.contextPath}/front_cart.page" class="option">购物车</a>
                     </c:when>
                     <c:otherwise>
                         <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
@@ -151,19 +151,19 @@
                 </c:choose>
                 <c:choose>
                     <c:when test="${sessionScope.userCart != null}">
-                        <a href="${pageContext.request.contextPath}/front_order.go" class="option">我的订单</a>
-                        <a href="${pageContext.request.contextPath}/front_userInfo.go" class="option">
+                        <a href="${pageContext.request.contextPath}/front_order.page" class="option">我的订单</a>
+                        <a href="${pageContext.request.contextPath}/front_userInfo.page" class="option">
                             欢迎，${sessionScope.userCart.username}
                         </a>
-                        <a href="#" class="option" id="user-logout">注销</a>
+                        <a href="#" class="option" id="user-logout">退出登录</a>
                     </c:when>
                     <c:when test="${sessionScope.manage != null}">
                         <span id="manage-font" class="option">管理员：${sessionScope.manage}</span>
-                        <a href="#" class="option" id="manage-logout">注销</a>
+                        <a href="#" class="option" id="manage-logout">退出登录</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/login.go" class="option">您好，请登录</a>
-                        <a href="${pageContext.request.contextPath}/signup.go" class="option">免费注册</a>
+                        <a href="${pageContext.request.contextPath}/login.page" class="option">您好，请登录</a>
+                        <a href="${pageContext.request.contextPath}/signup.page" class="option">免费注册</a>
                     </c:otherwise>
                 </c:choose>
             </div>

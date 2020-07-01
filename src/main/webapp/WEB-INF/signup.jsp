@@ -129,7 +129,7 @@
                             function (msg, status) {
                                 if (status === 'success') {
                                     if (msg === 200) {
-                                        window.location.href = '${pageContext.request.contextPath}/login.go'
+                                        window.location.href = '${pageContext.request.contextPath}/login.page'
                                     } else {
                                         toastr.error('注册失败!请重试!')
                                         createCaptcha()
@@ -207,7 +207,7 @@
                         </div>
                     </div>
                     <div id="login-box">
-                        <a href="${pageContext.request.contextPath}/login.go" id="login-a">已有账号？马上登录</a>
+                        <a href="${pageContext.request.contextPath}/login.page" id="login-a">已有账号？马上登录</a>
                     </div>
                 </form>
             </div>

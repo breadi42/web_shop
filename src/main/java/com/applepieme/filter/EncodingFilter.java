@@ -23,7 +23,7 @@ public class EncodingFilter implements Filter {
             throws IOException, ServletException {
         if (encoding != null) {
             request.setCharacterEncoding(encoding);
-            response.setContentType("application/json; charset = " + encoding);
+            response.setCharacterEncoding(encoding);
         }
         chain.doFilter(request, response);
     }

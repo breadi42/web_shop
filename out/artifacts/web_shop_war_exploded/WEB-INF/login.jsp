@@ -88,7 +88,7 @@
         function message() {
             let href = window.location.href
             href = href.split('/')
-            if (href[4] === 'front_cart.go') {
+            if (href[4] === 'front_cart.page') {
                 toastr.info('登录后更多精彩!')
             }
         }
@@ -134,7 +134,7 @@
                             function (msg, status) {
                                 if (status === 'success') {
                                     if (msg === 200) {
-                                        window.location.href = '${pageContext.request.contextPath}/front_welcome.go'
+                                        window.location.href = '${pageContext.request.contextPath}/front_welcome.page'
                                     } else {
                                         toastr.error('登录失败!请检查用户名和密码!')
                                         createCaptcha()
@@ -168,7 +168,7 @@
                             function (msg, status) {
                                 if (status === 'success') {
                                     if (msg === 200) {
-                                        window.location.href = '${pageContext.request.contextPath}/manage_welcome.go'
+                                        window.location.href = '${pageContext.request.contextPath}/manage_welcome.page'
                                     } else {
                                         alert('登录失败!请检查用户名和密码!')
                                         createCaptcha()
@@ -231,7 +231,7 @@
                         </div>
                     </div>
                     <div id="signup-box">
-                        <a href="${pageContext.request.contextPath}/signup.go" id="signup-a">还没有账号？马上注册</a>
+                        <a href="${pageContext.request.contextPath}/signup.page" id="signup-a">还没有账号？马上注册</a>
                     </div>
                 </form>
             </div>

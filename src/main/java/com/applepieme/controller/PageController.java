@@ -14,8 +14,8 @@ import java.io.IOException;
  * @author applepieme@yeah.net
  * @date 2020/6/28 16:12
  */
-@WebServlet("*.go")
-public class GoController extends HttpServlet {
+@WebServlet("*.page")
+public class PageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
@@ -26,14 +26,14 @@ public class GoController extends HttpServlet {
         // 获取请求路径
         String pageInfo = req.getServletPath();
         // 从请求路径获取跳转信息
-        pageInfo = pageInfo.substring(1, pageInfo.length() - 3);
+        pageInfo = pageInfo.substring(1, pageInfo.length() - 5);
         // 点击标题回到对应的首页
         if ("index".equals(pageInfo)) {
             // 若管理员已登录 则跳转到管理员主页
             if (req.getSession().getAttribute("manage") != null) {
                 req.getRequestDispatcher("WEB-INF/manage/welcome.jsp").forward(req, resp);
             } else {
-                req.getRequestDispatcher("WEB-INF/front/welcome.jsp").forward(req, resp);
+                resp.sendRedirect("welcome.user");
             }
             return;
         }

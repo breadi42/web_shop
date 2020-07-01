@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author applepieme@yeah.net
  * @date 2020/6/29 11:13
  */
-@WebFilter("*.go")
+@WebFilter("*.page")
 public class PowerFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -29,8 +29,8 @@ public class PowerFilter implements Filter {
                 req.getSession().getAttribute("manage") != null) {
             chain.doFilter(request, response);
             // 部分页面不拦截
-        } else if ("/login.go".equals(path) || "/index.go".equals(path) || "/signup.go".equals(path) ||
-                "/front_welcome.go".equals(path)) {
+        } else if ("/login.page".equals(path) || "/index.page".equals(path) || "/signup.page".equals(path) ||
+                "/front_welcome.page".equals(path)) {
             chain.doFilter(request, response);
             // 不符合条件 跳转到登录页面
         } else {

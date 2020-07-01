@@ -53,11 +53,7 @@ public class GoodsController extends HttpServlet {
      * @throws IOException
      */
     private void listGoods(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Goods> goodsList = goodsService.listGoods();
-        if (goodsList != null) {
-            req.getSession().setAttribute("goodsList", goodsList);
-            req.getRequestDispatcher("WEB-INF/front/welcome.jsp").forward(req, resp);
-        }
+
     }
 
     private void initIndex(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

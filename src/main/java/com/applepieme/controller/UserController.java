@@ -59,6 +59,7 @@ public class UserController extends HttpServlet {
      * @throws IOException
      */
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         // 获取数据库中所有用户信息
@@ -81,7 +82,7 @@ public class UserController extends HttpServlet {
     }
 
     /**
-     * 用户注销
+     * 用户退出
      *
      * @param req
      * @param resp
@@ -89,6 +90,7 @@ public class UserController extends HttpServlet {
      * @throws IOException
      */
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
         if (req.getSession().getAttribute("userCart") != null) {
             // 把购物车从session中清空
             req.getSession().setAttribute("userCart", null);
@@ -107,6 +109,7 @@ public class UserController extends HttpServlet {
      * @throws IOException
      */
     private void signup(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
         // 创建一个用户对象
         User user = new User();
         // 用表单中的信息来初始化用户

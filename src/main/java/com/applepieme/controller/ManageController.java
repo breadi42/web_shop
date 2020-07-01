@@ -59,6 +59,7 @@ public class ManageController extends HttpServlet {
      * @throws IOException
      */
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         if ("manage".equals(username) && "manage".equals(password)) {
@@ -79,6 +80,7 @@ public class ManageController extends HttpServlet {
      * @throws IOException
      */
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
         if (req.getSession().getAttribute("manage") != null) {
             // 清空session中的管理员用户名
             req.getSession().setAttribute("manage", null);
