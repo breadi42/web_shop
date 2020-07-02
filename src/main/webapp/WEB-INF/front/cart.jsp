@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>并 夕 夕</title>
+    <title>并 夕 夕 - 购物车</title>
     <jsp:include page="/static/header.jsp"/>
 
     <style>
@@ -47,13 +47,13 @@
             height: 28px;
         }
 
-        #remove, #buyNow {
+        .cart-option {
             text-decoration: none;
             color: #556a89;
             margin-right: 15px;
         }
 
-        #remove:hover, #buyNow:hover {
+        .cart-option:hover {
             color: #eeeeee;
             background: #556a89;
             text-decoration: none;
@@ -72,7 +72,7 @@
         <div class="col-md-8 text-left">
             <c:choose>
                 <c:when test="${sessionScope.userCart.cartGoodsList != null}">
-                    <c:forEach items="${sessionScope.userCart.cartGoodsList}" var="goods">
+                    <c:forEach items="${requestScope.goodsList}" var="goods">
                         <div class="cart-goods">
                             <img src="${pageContext.request.contextPath}/static/img/goods/${goods.image}" alt="">
                             <div class="cart-goods-info">
@@ -92,13 +92,41 @@
                                 </div>
 
                                 <div>
-                                    <a href="#" id="remove">移除</a>
-                                    <a href="#" id="buyNow">立即购买</a>
+                                    <a href="${pageContext.request.contextPath}/removeCartGoods.goods?id=${goods.goodsId}" class="cart-option">移除</a>
+                                    <a href="#" class="cart-option">立即购买</a>
                                 </div>
 
                             </div>
                         </div>
                     </c:forEach>
+
+                    <c:if test="${requestScope.array != null}">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="disabled">
+                                    <span aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </span>
+                                </li>
+                                <c:forEach items="${requestScope.array}" var="i" end="${requestScope.total - 1}">
+                                    <c:choose>
+                                        <c:when test="${requestScope.page == i}">
+                                            <li class="active"><span>${i}</span></li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <li><a href="${pageContext.request.contextPath}/userCart.user?page=${i}">${i}</a></li>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                                <li class="disabled">
+                                    <span aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </nav>
+                    </c:if>
+
                 </c:when>
                 <c:otherwise>
                     <div class="no-cart">

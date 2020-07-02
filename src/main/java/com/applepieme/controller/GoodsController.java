@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 商品Controller
+ * 处理商品相关请求
+ *
  * @author applepieme@yeah.net
  * @date 2020/6/30 14:53
  */
@@ -50,10 +53,10 @@ public class GoodsController extends HttpServlet {
     /**
      * 获取用户主页的热门商品
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
      */
     private void initIndex(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Goods> goodsList = goodsService.listGoods();
@@ -66,12 +69,13 @@ public class GoodsController extends HttpServlet {
     /**
      * 用户查询所有商品
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
      */
-    private void queryGoods(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void queryGoods(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         List<Goods> goodsList = goodsService.listGoods();
         if (goodsList != null) {
             req.setAttribute("type", "Goods");
@@ -88,10 +92,10 @@ public class GoodsController extends HttpServlet {
     /**
      * 查询电子产品
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
      */
     private void queryElectronic(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -111,12 +115,13 @@ public class GoodsController extends HttpServlet {
     /**
      * 查询服装
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
      */
-    private void queryClothing(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void queryClothing(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         List<Goods> clothingList = goodsService.listGoodsByType("服装");
         if (clothingList != null) {
             req.setAttribute("type", "Clothing");
@@ -133,10 +138,10 @@ public class GoodsController extends HttpServlet {
     /**
      * 查询食品
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
      */
     private void queryFood(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Goods> foodList = goodsService.listGoodsByType("食品");
@@ -155,12 +160,13 @@ public class GoodsController extends HttpServlet {
     /**
      * 根据关键字查询
      *
-     * @param req req
-     * @param resp resp
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
      * @throws ServletException ServletException
-     * @throws IOException IOException
+     * @throws IOException      IOException
      */
-    private void queryByKey(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void queryByKey(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         List<Goods> keyList = goodsService.listGoodsByKey(req.getParameter("key"));
         if (keyList != null) {
             req.setAttribute("hotGoods", getHotGoods(keyList));
@@ -173,6 +179,14 @@ public class GoodsController extends HttpServlet {
         }
     }
 
+    /**
+     * 查看商品详情
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
     private void details(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Goods> goodsList = goodsService.listGoods();
         int id = Integer.parseInt(req.getParameter("id"));
@@ -187,10 +201,10 @@ public class GoodsController extends HttpServlet {
     /**
      * 商品加入购物车
      *
-     * @param req HttpServletRequest
+     * @param req  HttpServletRequest
      * @param resp HttpServletResponse
      * @throws ServletException ServletException
-     * @throws IOException IOException
+     * @throws IOException      IOException
      */
     private void addCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
@@ -229,9 +243,31 @@ public class GoodsController extends HttpServlet {
     }
 
     /**
-     * 获取热门商品列表
+     * 从购物车中移除商品
      *
-     * @param goodsList
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
+    private void removeCartGoods(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        int id = Integer.parseInt(req.getParameter("id"));
+        Cart userCart = (Cart) session.getAttribute("userCart");
+        List<Goods> goodsList = userCart.getCartGoodsList();
+        goodsList.removeIf(item -> item.getGoodsId() == id);
+        if (goodsList.isEmpty()) {
+            userCart.setCartGoodsList(null);
+        }
+        session.setAttribute("userCart", userCart);
+        resp.sendRedirect("front_cart.page");
+    }
+
+    /**
+     * 根据当前商品分类获取对应推荐商品列表
+     *
+     * @param goodsList 商品分类对应的商品列表
      * @return List
      */
     private List<Goods> getHotGoods(List<Goods> goodsList) {
@@ -247,18 +283,22 @@ public class GoodsController extends HttpServlet {
     }
 
     /**
-     * 当商品数超过每页显示的个数时，分页展示
+     * 当商品数超过8个时，分页展示
      *
-     * @param req
-     * @param resp
-     * @param goodsList
-     * @throws ServletException
-     * @throws IOException
+     * @param req       HttpServletRequest
+     * @param resp      HttpServletResponse
+     * @param goodsList 当前要显示的商品列表
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
      */
     private void setPageGoods(HttpServletRequest req, HttpServletResponse resp, List<Goods> goodsList)
             throws ServletException, IOException {
         int page = Integer.parseInt(req.getParameter("page"));
-        int total = goodsList.size() / 8 + 1;
+        /* 计算总共多少页
+         * 需要使用商品数 - 1 来除以每页个数再 + 1
+         * + 1 是因为当商品数不是每页个数的整数倍时，由于是int类型，会向下取整，所以需要 + 1
+         * 商品数需要 - 1 是因为如果商品个数恰好是每页个数的整数倍，那么在本身不需要分页的情况下，会多出1页空页 */
+        int total = (goodsList.size() - 1) / 8 + 1;
         int[] array = new int[999];
         for (int i = 0; i < total; i++) {
             array[i] = i + 1;
@@ -267,11 +307,10 @@ public class GoodsController extends HttpServlet {
         for (int i = 0; i < page; i++) {
             pageGoods.clear();
             for (int j = 0; j < 8; j++) {
-                pageGoods.add(goodsList.get(0));
-                goodsList.remove(0);
-                if (goodsList.isEmpty()) {
+                if ((j + (page - 1) * 8) == goodsList.size()) {
                     break;
                 }
+                pageGoods.add(goodsList.get(j + (page - 1) * 8));
             }
         }
         req.setAttribute("array", array);

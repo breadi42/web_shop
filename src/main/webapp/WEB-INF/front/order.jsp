@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>并 夕 夕</title>
+    <title>并 夕 夕 - 我的订单</title>
     <jsp:include page="/static/header.jsp"/>
 </head>
 <body>

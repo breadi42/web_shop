@@ -41,7 +41,11 @@ public class PageController extends HttpServlet {
         String[] tmp = pageInfo.split("_");
         // 请求转发到指定页面
         if (tmp.length == 2) {
-            req.getRequestDispatcher("WEB-INF/" + tmp[0] + "/" + tmp[1] + ".jsp").forward(req, resp);
+            if ("cart".equals(tmp[1])) {
+                req.getRequestDispatcher("userCart.user?page=1").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("WEB-INF/" + tmp[0] + "/" + tmp[1] + ".jsp").forward(req, resp);
+            }
         } else {
             req.getRequestDispatcher("WEB-INF/" + pageInfo + ".jsp").forward(req, resp);
         }
