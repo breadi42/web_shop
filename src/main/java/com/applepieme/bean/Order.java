@@ -1,7 +1,5 @@
 package com.applepieme.bean;
 
-import java.sql.Date;
-
 /**
  * Order数据类
  * 与order表对应的数据模型
@@ -49,7 +47,7 @@ public class Order {
      * 下单时间
      * 对应order表中的date
      */
-    private Date date;
+    private String date;
     /**
      * 订单状态
      * 对应order表中的status
@@ -112,11 +110,11 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

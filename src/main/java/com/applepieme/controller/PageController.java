@@ -43,6 +43,9 @@ public class PageController extends HttpServlet {
         if (tmp.length == 2) {
             if ("cart".equals(tmp[1])) {
                 req.getRequestDispatcher("userCart.user?page=1").forward(req, resp);
+                // 为了让购买功能可以正常被拦截，使用.page后缀来请求
+            } else if ("orderDetails".equals(tmp[1])) {
+                req.getRequestDispatcher("orderDetails.goods").forward(req, resp);
             } else {
                 req.getRequestDispatcher("WEB-INF/" + tmp[0] + "/" + tmp[1] + ".jsp").forward(req, resp);
             }

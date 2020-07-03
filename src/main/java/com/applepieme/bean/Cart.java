@@ -10,32 +10,20 @@ import java.util.List;
  */
 public class Cart {
     /**
-     * 当前登录的用户id
+     * 当前登录的用户
      */
-    private int userId;
-    /**
-     * 当前登录的用户名
-     */
-    private String username;
+    private User user;
     /**
      * 购物车中的商品
      */
     private List<Goods> cartGoodsList;
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Goods> getCartGoodsList() {
@@ -49,8 +37,7 @@ public class Cart {
     @Override
     public String toString() {
         return "Cart{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
+                "user=" + user +
                 ", cartGoodsList=" + cartGoodsList +
                 '}';
     }

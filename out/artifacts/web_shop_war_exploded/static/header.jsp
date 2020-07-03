@@ -32,7 +32,7 @@
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "2000",
+            "timeOut": "3000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -155,9 +155,9 @@
                 </c:choose>
                 <c:choose>
                     <c:when test="${sessionScope.userCart != null}">
-                        <a href="${pageContext.request.contextPath}/front_order.page" class="option">我的订单</a>
+                        <a href="${pageContext.request.contextPath}/front_userOrder.page" class="option">我的订单</a>
                         <a href="${pageContext.request.contextPath}/front_userInfo.page" class="option">
-                            欢迎，${sessionScope.userCart.username}
+                            欢迎，${sessionScope.userCart.user.username}
                         </a>
                         <a href="#" class="option" id="user-logout">退出登录</a>
                     </c:when>

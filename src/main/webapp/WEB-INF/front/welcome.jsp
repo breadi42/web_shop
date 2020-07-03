@@ -49,6 +49,15 @@
     </style>
 
     <script>
+        function massage() {
+            let href = window.location.href
+            href = href.split('/')
+            href = href[4].split('?')
+            if (href[0] === 'buyGoods.order') {
+                toastr.info('下单成功!快去查看订单吧!')
+            }
+        }
+
         $(function () {
             $('#ppt-1').click(function () {
                 window.location.href = '${pageContext.request.contextPath}/queryClothing.goods?page=1'
@@ -73,7 +82,7 @@
     </script>
 
 </head>
-<body>
+<body onload="massage()">
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-1"></div>

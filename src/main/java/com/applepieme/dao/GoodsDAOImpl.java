@@ -11,26 +11,26 @@ import java.util.List;
 public class GoodsDAOImpl extends BaseDAO<Goods> implements GoodsDAO {
     @Override
     public List<Goods> listGoods() {
-        String sql = "select * from goods";
+        String sql = "select * from `goods`";
         return (List<Goods>) super.getList(sql);
     }
 
     @Override
     public List<Goods> listGoodsByType(String type) {
-        String sql = "select * from goods where type=?";
+        String sql = "select * from `goods` where `type` = ?";
         return (List<Goods>) super.getList(sql, type);
     }
 
     @Override
     public Goods getGoodsById(int id) {
-        String sql = "select * from goods where goodsId=?";
+        String sql = "select * from `goods` where `goodsId` = ?";
         return super.getEntity(sql, id);
     }
 
     @Override
     public List<Goods> listGoodsByKey(String key) {
         key = "%" + key + "%";
-        String sql = "select * from goods where goodsname like ?";
+        String sql = "select * from `goods` where `goodsname` like ?";
         return (List<Goods>) super.getList(sql, key);
     }
 

@@ -80,7 +80,7 @@
     </style>
 
     <script>
-        let isnum = /^[0-9]*$/;
+        let isnum = /^[0-9]*$/
 
         $(function () {
             $('#plus').click(function () {
@@ -114,6 +114,11 @@
                             toastr.error('请求服务器失败!')
                         }
                     })
+            })
+
+            $('#buyNow').click(function () {
+                window.location.href = '${pageContext.request.contextPath}/front_orderDetails.page?id=${requestScope.goods.goodsId}&num='
+                    + $('#goods-num').val()
             })
         })
 

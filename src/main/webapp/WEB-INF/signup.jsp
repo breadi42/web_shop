@@ -161,7 +161,7 @@
                     <h3>用&nbsp户&nbsp注&nbsp册</h3>
                 </div>
 
-                <form id="signup-form">
+                <form id="signup-form" method="post">
                     <div class="input-group">
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>

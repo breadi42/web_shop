@@ -2,6 +2,7 @@ package com.applepieme.controller;
 
 import com.applepieme.bean.Cart;
 import com.applepieme.bean.Goods;
+import com.applepieme.bean.User;
 import com.applepieme.service.FactoryService;
 import com.applepieme.service.GoodsService;
 
@@ -262,6 +263,26 @@ public class GoodsController extends HttpServlet {
         }
         session.setAttribute("userCart", userCart);
         resp.sendRedirect("front_cart.page");
+    }
+
+    /**
+     * 购买商品时的订单详情
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
+    private void orderDetails(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        int num = Integer.parseInt(req.getParameter("num"));
+        Goods goods = goodsService.getGoodsById(id);
+        goods.setNumber(num);
+        Cart userCart = (Cart) req.getSession().getAttribute("userCart");
+        User user = userCart.getUser();
+        req.setAttribute("goods", goods);
+        req.setAttribute("user", user);
+        req.getRequestDispatcher("WEB-INF/front/orderDetails.jsp").forward(req, resp);
     }
 
     /**

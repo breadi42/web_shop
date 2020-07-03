@@ -88,7 +88,8 @@
         function message() {
             let href = window.location.href
             href = href.split('/')
-            if (href[4] === 'front_cart.page') {
+            href = href[4].split('?')
+            if (href[0] === 'front_cart.page' || href[0] === 'front_orderDetails.page') {
                 toastr.info('登录后更多精彩!')
             }
         }
@@ -200,7 +201,7 @@
                 <div id="box-title">
                     <h3>用&nbsp户&nbsp登&nbsp录</h3>
                 </div>
-                <form id="login-form">
+                <form id="login-form" method="post">
                     <div class="input-group">
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>

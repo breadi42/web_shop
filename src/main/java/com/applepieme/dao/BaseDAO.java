@@ -52,9 +52,9 @@ public class BaseDAO<T> {
     /**
      * 获取多条记录
      *
-     * @param sql
-     * @param args
-     * @return
+     * @param sql sql语句
+     * @param args 参数
+     * @return T
      */
     public T getList(String sql, Object... args) {
         Connection connection = null;
@@ -76,9 +76,9 @@ public class BaseDAO<T> {
     /**
      * insert、delete、update方法
      *
-     * @param sql
-     * @param args
-     * @return
+     * @param sql sql语句
+     * @param args 参数
+     * @return int
      */
     public int update(String sql, Object... args) {
         Connection connection = null;
@@ -86,8 +86,10 @@ public class BaseDAO<T> {
         int row = 0;
         try {
             connection = JdbcUtil.getConnection();
+            connection.setAutoCommit(false);
             // 调用update方法 更新数据库
             row = queryRunner.update(connection, sql, args);
+            connection.commit();
         } catch (Exception e) {
             // 异常时回滚事务
             JdbcUtil.rollbackTransaction(connection);
@@ -102,9 +104,9 @@ public class BaseDAO<T> {
     /**
      * 查询一条数据，封装成一个对象
      *
-     * @param sql
-     * @param args
-     * @return
+     * @param sql sql语句
+     * @param args 参数
+     * @return T
      */
     public T getEntity(String sql, Object... args) {
         Connection connection = null;

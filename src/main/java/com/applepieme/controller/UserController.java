@@ -56,10 +56,10 @@ public class UserController extends HttpServlet {
     /**
      * 用户登录
      *
-     * @param req HttpServletRequest
+     * @param req  HttpServletRequest
      * @param resp HttpServletResponse
      * @throws ServletException ServletException
-     * @throws IOException IOException
+     * @throws IOException      IOException
      */
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
@@ -72,9 +72,8 @@ public class UserController extends HttpServlet {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 // 为当前登录的用户创建一个购物车
                 Cart userCart = new Cart();
-                // 初始化用户id和用户名
-                userCart.setUserId(user.getUserId());
-                userCart.setUsername(username);
+                // 初始化购物车用户
+                userCart.setUser(user);
                 // 把购物车存放到session中
                 req.getSession().setAttribute("userCart", userCart);
                 resp.getWriter().println(200);
@@ -87,10 +86,10 @@ public class UserController extends HttpServlet {
     /**
      * 用户退出
      *
-     * @param req HttpServletRequest
+     * @param req  HttpServletRequest
      * @param resp HttpServletResponse
      * @throws ServletException ServletException
-     * @throws IOException IOException
+     * @throws IOException      IOException
      */
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
@@ -106,10 +105,10 @@ public class UserController extends HttpServlet {
     /**
      * 用户注册
      *
-     * @param req HttpServletRequest
+     * @param req  HttpServletRequest
      * @param resp HttpServletResponse
      * @throws ServletException ServletException
-     * @throws IOException IOException
+     * @throws IOException      IOException
      */
     private void signup(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
@@ -121,8 +120,7 @@ public class UserController extends HttpServlet {
         user.setPhone(req.getParameter("phone"));
         user.setAddress(req.getParameter("address"));
         // 把用户信息保存到数据库中
-        int row = userService.addUser(user);
-        if (row >= 1) {
+        if (userService.addUser(user) >= 1) {
             resp.getWriter().println(200);
         } else {
             resp.getWriter().println(400);
@@ -132,10 +130,10 @@ public class UserController extends HttpServlet {
     /**
      * 用户主页 获取商品数据
      *
-     * @param req HttpServletRequest
+     * @param req  HttpServletRequest
      * @param resp HttpServletResponse
      * @throws ServletException ServletException
-     * @throws IOException IOException
+     * @throws IOException      IOException
      */
     private void welcome(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("initIndex.goods").forward(req, resp);
@@ -144,10 +142,10 @@ public class UserController extends HttpServlet {
     /**
      * 购物车
      *
-     * @param req HttpServletRequest
+     * @param req  HttpServletRequest
      * @param resp HttpServletResponse
      * @throws ServletException ServletException
-     * @throws IOException IOException
+     * @throws IOException      IOException
      */
     private void userCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -161,9 +159,9 @@ public class UserController extends HttpServlet {
                 // 获取当前页码数
                 int page = Integer.parseInt(req.getParameter("page"));
                 /* 计算总共多少页
-                *  需要使用商品数 - 1 来除以每页个数再 + 1
-                *  + 1 是因为当商品数不是每页个数的整数倍时，由于是int类型，会向下取整，所以需要 + 1
-                *  商品数需要 - 1 是因为如果商品个数恰好是每页个数的整数倍，那么在本身不需要分页的情况下，会多出1页空页 */
+                 *  需要使用商品数 - 1 来除以每页个数再 + 1
+                 *  + 1 是因为当商品数不是每页个数的整数倍时，由于是int类型，会向下取整，所以需要 + 1
+                 *  商品数需要 - 1 是因为如果商品个数恰好是每页个数的整数倍，那么在本身不需要分页的情况下，会多出1页空页 */
                 int total = (cartGoodsList.size() - 1) / 9 + 1;
                 // 页码数字数组，封装页码中的数字
                 int[] array = new int[999];
@@ -199,4 +197,26 @@ public class UserController extends HttpServlet {
         req.getRequestDispatcher("WEB-INF/front/cart.jsp").forward(req, resp);
     }
 
+    /**
+     * 修改用户信息
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
+    private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        Cart userCart = (Cart) req.getSession().getAttribute("userCart");
+        User user = userCart.getUser();
+        user.setUsername(req.getParameter("username"));
+        user.setPassword(req.getParameter("password"));
+        user.setPhone(req.getParameter("phone"));
+        user.setAddress(req.getParameter("address"));
+        if (userService.updateUser(user) >= 1) {
+            resp.getWriter().println(200);
+        } else {
+            resp.getWriter().println(400);
+        }
+    }
 }

@@ -87,13 +87,16 @@
                                 <div>
                                     <div class="input-group goods-num-box">
                                         <span class="input-group-addon">数量</span>
-                                        <input type="text" class="form-control text-center" value="${goods.number}" id="goods-num" name="number" disabled>
+                                        <input type="text" class="form-control text-center" value="${goods.number}"
+                                               id="goods-num" name="number" disabled>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <a href="${pageContext.request.contextPath}/removeCartGoods.goods?id=${goods.goodsId}" class="cart-option">移除</a>
-                                    <a href="#" class="cart-option">立即购买</a>
+                                    <a href="${pageContext.request.contextPath}/removeCartGoods.goods?id=${goods.goodsId}"
+                                       class="cart-option">移除</a>
+                                    <a href="${pageContext.request.contextPath}/front_orderDetails.page?id=${goods.goodsId}&num=${goods.number}"
+                                       class="cart-option">立即购买</a>
                                 </div>
 
                             </div>
