@@ -94,8 +94,8 @@
                     <div class="form-group">
                         <label for="username" class="col-sm-2 control-label">用户名</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="username"
-                                   value="${requestScope.user.username}" disabled>
+                            <input type="text" class="form-control" id="username" name="username"
+                                   value="${requestScope.user.username}" readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -126,6 +126,7 @@
                                    value="${requestScope.goods.price * requestScope.goods.number}" readonly>
                         </div>
                     </div>
+                    <input type="hidden" name="goodsname" value="${requestScope.goods.goodsName}">
                     <div class="btn-group btn-group-justified" role="group">
                         <div class="btn-group" role="group">
                             <input type="button" class="btn btn-default" id="cancel" value="取消订单">

@@ -66,7 +66,9 @@ public class OrderController extends HttpServlet {
         int goodsId = Integer.parseInt(req.getParameter("goodsId"));
         // 初始化
         order.setUserId(Integer.parseInt(req.getParameter("userId")));
+        order.setUsername(req.getParameter("username"));
         order.setGoodsId(goodsId);
+        order.setGoodsname(req.getParameter("goodsname"));
         order.setUserPhone(req.getParameter("phone"));
         order.setAddress(req.getParameter("address"));
         order.setNumber(Integer.parseInt(req.getParameter("number")));
@@ -76,15 +78,34 @@ public class OrderController extends HttpServlet {
             HttpSession session = req.getSession();
             Cart userCart = (Cart) session.getAttribute("userCart");
             List<Goods> goodsList = userCart.getCartGoodsList();
-            // 如果购物车中有该商品，则把已经购买的商品从购物车中移除
-            goodsList.removeIf(item -> item.getGoodsId() == goodsId);
-            // 如果购物车已经没有商品，把商品列表置为null
-            if (goodsList.isEmpty()) {
-                userCart.setCartGoodsList(null);
+            if (goodsList != null) {
+                // 如果购物车中有该商品，则把已经购买的商品从购物车中移除
+                goodsList.removeIf(item -> item.getGoodsId() == goodsId);
+                // 如果购物车已经没有商品，把商品列表置为null
+                if (goodsList.isEmpty()) {
+                    userCart.setCartGoodsList(null);
+                }
             }
             // 更新购物车
             session.setAttribute("userCart", userCart);
             req.getRequestDispatcher("welcome.user").forward(req, resp);
         }
+    }
+
+    /**
+     * 用户查看订单
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
+    private void listUserOrders(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        Cart userCart = (Cart) req.getSession().getAttribute("userCart");
+        int userId = userCart.getUser().getUserId();
+        List<Order> orderList = orderService.listOrdersByUserId(userId);
+        req.setAttribute("orderList", orderList);
+        req.getRequestDispatcher("front_userOrder.page").forward(req, resp);
     }
 }

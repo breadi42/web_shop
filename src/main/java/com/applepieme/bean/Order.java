@@ -1,5 +1,7 @@
 package com.applepieme.bean;
 
+import java.sql.Date;
+
 /**
  * Order数据类
  * 与order表对应的数据模型
@@ -19,10 +21,18 @@ public class Order {
      */
     private int userId;
     /**
+     * 订单用户名
+     */
+    private String username;
+    /**
      * 商品id
      * 对应order表中的goodsId
      */
     private int goodsId;
+    /**
+     * 商品名
+     */
+    private String goodsname;
     /**
      * 用户电话
      * 对应order表中的userPhone
@@ -47,7 +57,7 @@ public class Order {
      * 下单时间
      * 对应order表中的date
      */
-    private String date;
+    private Date date;
     /**
      * 订单状态
      * 对应order表中的status
@@ -70,12 +80,28 @@ public class Order {
         this.userId = userId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public int getGoodsId() {
         return goodsId;
     }
 
     public void setGoodsId(int goodsId) {
         this.goodsId = goodsId;
+    }
+
+    public String getGoodsname() {
+        return goodsname;
+    }
+
+    public void setGoodsname(String goodsname) {
+        this.goodsname = goodsname;
     }
 
     public String getUserPhone() {
@@ -110,11 +136,11 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -131,12 +157,14 @@ public class Order {
         return "Order{" +
                 "orderId=" + orderId +
                 ", userId=" + userId +
+                ", username='" + username + '\'' +
                 ", goodsId=" + goodsId +
+                ", goodsname='" + goodsname + '\'' +
                 ", userPhone='" + userPhone + '\'' +
                 ", address='" + address + '\'' +
                 ", number=" + number +
                 ", totalPrice=" + totalPrice +
-                ", date=" + date +
+                ", date='" + date + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }

@@ -4,6 +4,8 @@ import com.applepieme.bean.Order;
 import com.applepieme.dao.FactoryDAO;
 import com.applepieme.dao.OrderDAO;
 
+import java.util.List;
+
 /**
  * OrderService的实现类
  *
@@ -16,5 +18,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int addOrder(Order order) {
         return dao.addOrder(order);
+    }
+
+    @Override
+    public List<Order> listOrdersByUserId(int userId) {
+        return dao.listOrdersByUserId(userId);
     }
 }

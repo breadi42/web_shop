@@ -2,6 +2,8 @@ package com.applepieme.dao;
 
 import com.applepieme.bean.Order;
 
+import java.util.List;
+
 /**
  * OrderDAO
  * 对order表进行增删改查
@@ -17,4 +19,12 @@ public interface OrderDAO {
      * @return int
      */
     int addOrder(Order order);
+
+    /**
+     * 根据用户id查询订单
+     *
+     * @param userId 用户id
+     * @return List
+     */
+    List<Order> listOrdersByUserId(int userId);
 }

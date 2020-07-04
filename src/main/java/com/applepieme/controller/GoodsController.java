@@ -2,6 +2,7 @@ package com.applepieme.controller;
 
 import com.applepieme.bean.Cart;
 import com.applepieme.bean.Goods;
+import com.applepieme.bean.Order;
 import com.applepieme.bean.User;
 import com.applepieme.service.FactoryService;
 import com.applepieme.service.GoodsService;

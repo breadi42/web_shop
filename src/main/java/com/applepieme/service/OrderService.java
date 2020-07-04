@@ -2,6 +2,8 @@ package com.applepieme.service;
 
 import com.applepieme.bean.Order;
 
+import java.util.List;
+
 /**
  * OrderService
  * 负责调用DAO层
@@ -17,4 +19,12 @@ public interface OrderService {
      * @return int
      */
     int addOrder(Order order);
+
+    /**
+     * 根据用户id查询订单
+     *
+     * @param userId 用户id
+     * @return List
+     */
+    List<Order> listOrdersByUserId(int userId);
 }

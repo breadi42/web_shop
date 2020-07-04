@@ -155,7 +155,7 @@
                 </c:choose>
                 <c:choose>
                     <c:when test="${sessionScope.userCart != null}">
-                        <a href="${pageContext.request.contextPath}/front_userOrder.page" class="option">我的订单</a>
+                        <a href="${pageContext.request.contextPath}/listUserOrders.order" class="option">我的订单</a>
                         <a href="${pageContext.request.contextPath}/front_userInfo.page" class="option">
                             欢迎，${sessionScope.userCart.user.username}
                         </a>
