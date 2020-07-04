@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <table class="table text-center">
+            <table class="table text-center table-striped">
                 <tr>
                     <th>订单编号</th>
                     <th>商品</th>

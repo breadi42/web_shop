@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <table class="table text-center">
+            <table class="table text-center table-striped">
                 <tr>
                     <th>订单编号</th>
                     <th>商品</th>
@@ -44,7 +44,7 @@
                         <td>${order.address}</td>
                         <td>${order.number}</td>
                         <td>${order.totalPrice}</td>
-                        <td><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm:ss"/> </td>
+                        <td><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <td>${order.status}</td>
                         <td>操作</td>
                     </tr>
