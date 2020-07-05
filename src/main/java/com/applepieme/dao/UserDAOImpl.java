@@ -24,15 +24,15 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
     @Override
-    public User getUserById(int id) {
-        String sql = "select * from `user` where `userId` = ?";
-        return super.getEntity(sql, id);
-    }
-
-    @Override
     public int updateUser(User user) {
         String sql = "update `user` set `username` = ?, `password` = ?, `phone` = ?, `address` = ? where `userId` = ?";
         return super.update(sql, user.getUsername(), user.getPassword(), user.getPhone(), user.getAddress(),
                 user.getUserId());
+    }
+
+    @Override
+    public int deleteUser(int userId) {
+        String sql = "delete from `user` where `userId` = ?";
+        return super.update(sql, userId);
     }
 }

@@ -22,7 +22,9 @@ public class PowerFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest)request;
+        // 把ServletRequest对象强制转换成HttpServletRequest对象
+        HttpServletRequest req = (HttpServletRequest) request;
+        // 获取请求地址
         String path = req.getServletPath();
         // 管理员或用户登录 则不拦截
         if (req.getSession().getAttribute("userCart") != null ||

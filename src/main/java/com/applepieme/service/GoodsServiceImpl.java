@@ -7,10 +7,15 @@ import com.applepieme.dao.GoodsDAO;
 import java.util.List;
 
 /**
+ * GoodsService的实现类
+ *
  * @author applepieme@yeah.net
  * @date 2020/6/30 14:50
  */
 public class GoodsServiceImpl implements GoodsService {
+    /**
+     * GoodsDAO对应实现类对象
+     */
     GoodsDAO dao = FactoryDAO.getDAO(GoodsDAO.class);
 
     @Override
@@ -35,11 +40,11 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public int updateGoods(Goods goods) {
-        return 0;
+        return dao.updateGoods(goods);
     }
 
     @Override
-    public int addGoods(Goods goods) {
-        return 0;
+    public int deleteGoods(int goodsId) {
+        return dao.deleteGoods(goodsId);
     }
 }

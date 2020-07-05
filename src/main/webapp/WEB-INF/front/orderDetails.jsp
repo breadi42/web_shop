@@ -31,7 +31,7 @@
     </style>
 
     <script>
-        let isnum = /^[0-9]*$/
+        let isnum = /^\d+$/
         let tPhone = /^([1][3,4,5,6,7,8,9])\d{9}$/
 
         $(function () {

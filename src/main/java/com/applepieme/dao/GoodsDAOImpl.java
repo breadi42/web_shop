@@ -5,6 +5,8 @@ import com.applepieme.bean.Goods;
 import java.util.List;
 
 /**
+ * GoodsDAO的实现类
+ *
  * @author applepieme@yeah.net
  * @date 2020/6/30 14:46
  */
@@ -36,11 +38,15 @@ public class GoodsDAOImpl extends BaseDAO<Goods> implements GoodsDAO {
 
     @Override
     public int updateGoods(Goods goods) {
-        return 0;
+        String sql = "update `goods` set `goodsname` = ?, `type` = ?, `price` = ?, `details` = ?, `stock` = ? " +
+                "where `goodsId` = ?";
+        return super.update(sql, goods.getGoodsName(), goods.getType(), goods.getPrice(), goods.getDetails(),
+                goods.getStock(), goods.getGoodsId());
     }
 
     @Override
-    public int addGoods(Goods goods) {
-        return 0;
+    public int deleteGoods(int goodsId) {
+        String sql = "delete from `goods` where `goodsId` = ?";
+        return super.update(sql, goodsId);
     }
 }

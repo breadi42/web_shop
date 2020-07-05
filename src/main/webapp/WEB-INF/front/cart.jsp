@@ -64,6 +64,22 @@
         }
     </style>
 
+    <script>
+        function removeCartGoods(goodsId) {
+            $.get('${pageContext.request.contextPath}/removeCartGoods.goods', {id : goodsId}, function (msg, status) {
+                if (status === 'success') {
+                    if (msg === 200) {
+                        location.reload()
+                    } else {
+                        toastr.error('移除失败!')
+                    }
+                } else {
+                    toastr.error('请求服务器失败!')
+                }
+            })
+        }
+    </script>
+
 </head>
 <body>
 <div class="container-fluid">
@@ -93,8 +109,7 @@
                                 </div>
 
                                 <div>
-                                    <a href="${pageContext.request.contextPath}/removeCartGoods.goods?id=${goods.goodsId}"
-                                       class="cart-option">移除</a>
+                                    <a href="#" class="cart-option" onclick="removeCartGoods(${goods.goodsId})">移除</a>
                                     <a href="${pageContext.request.contextPath}/front_orderDetails.page?id=${goods.goodsId}&num=${goods.number}"
                                        class="cart-option">立即购买</a>
                                 </div>

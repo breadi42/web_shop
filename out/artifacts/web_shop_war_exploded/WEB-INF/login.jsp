@@ -158,10 +158,10 @@
             // 管理员登录
             $('#manage-login').click(function () {
                 if ($('#username').val() === '') {
-                    $('#input-status').html('用户名不能为空!')
+                    toastr.warning('用户名不能为空!')
                     createCaptcha()
                 } else if ($('#password').val() === '') {
-                    $('#input-status').html('密码不能为空!')
+                    toastr.warning('密码不能为空!')
                     createCaptcha()
                 } else {
                     if ($('#input-captcha').val().toUpperCase() === captcha.toUpperCase()) {
@@ -171,19 +171,19 @@
                                     if (msg === 200) {
                                         window.location.href = '${pageContext.request.contextPath}/manage_welcome.page'
                                     } else {
-                                        alert('登录失败!请检查用户名和密码!')
+                                        toastr.error('登录失败!请检查用户名和密码!')
                                         createCaptcha()
                                     }
                                 } else {
-                                    alert('请求服务器失败!')
+                                    toastr.error('请求服务器失败!')
                                     createCaptcha()
                                 }
                             })
                     } else if ($('#input-captcha').val() === '') {
-                        $('#input-status').html('请输入验证码!')
+                        toastr.warning('请输入验证码!')
                         createCaptcha()
                     } else {
-                        $('#input-status').html('验证码错误!')
+                        toastr.error('验证码错误!')
                         createCaptcha()
                     }
                 }

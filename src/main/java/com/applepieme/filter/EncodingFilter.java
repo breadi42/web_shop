@@ -15,6 +15,7 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        // 从初始化参数中获取字符编码
         this.encoding = filterConfig.getInitParameter("encoding");
     }
 
@@ -22,6 +23,7 @@ public class EncodingFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         if (encoding != null) {
+            // 请求响应的字符编码都设置为UTF-8
             request.setCharacterEncoding(encoding);
             response.setCharacterEncoding(encoding);
         }

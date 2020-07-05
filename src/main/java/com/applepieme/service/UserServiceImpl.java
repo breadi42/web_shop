@@ -29,12 +29,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(int id) {
-        return dao.getUserById(id);
+    public int updateUser(User user) {
+        return dao.updateUser(user);
     }
 
     @Override
-    public int updateUser(User user) {
-        return dao.updateUser(user);
+    public int deleteUser(int userId) {
+        return dao.deleteUser(userId);
     }
 }

@@ -40,8 +40,15 @@ public interface OrderDAO {
      * 修改订单状态
      *
      * @param orderId 订单id
-     * @param status 订单状态
+     * @param status  订单状态
      * @return int
      */
     int changeOrderStatus(int orderId, String status);
+
+    /**
+     * 查询所有订单
+     *
+     * @return List
+     */
+    List<Order> listOrders();
 }

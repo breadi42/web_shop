@@ -13,24 +13,56 @@
     <title>并 夕 夕 - 我的订单</title>
     <jsp:include page="/static/header.jsp"/>
 
-    <style type="text/css">
-        th {
-            text-align: center;
-        }
-    </style>
-
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
+
+        // 删除订单
+        function deleteOrder(orderId) {
+            $.post('${pageContext.request.contextPath}/deleteOrder.order',
+                {id : orderId}, function (msg, status) {
+                if (status === 'success') {
+                    if (msg === 200) {
+                        location.reload()
+                    } else {
+                        toastr.error('删除订单失败!')
+                    }
+                } else {
+                    toastr.error('请求服务器失败!')
+                }
+            })
+        }
+
+        // 确认收货
+        function checkOrder(orderId) {
+            $.post('${pageContext.request.contextPath}/changeOrderStatus.order',
+                {id : orderId, status : '已签收'}, function (msg, status) {
+                if (status === 'success') {
+                    if (msg === 200) {
+                        location.reload()
+                    } else {
+                        toastr.error('确认收货失败!')
+                    }
+                } else {
+                    toastr.error('请求服务器失败!')
+                }
+            })
+        }
     </script>
+
+    <style type="text/css">
+        th {
+            min-width: 90px;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <table class="table text-center table-striped">
+            <table class="table table-striped">
                 <tr>
                     <th>订单编号</th>
                     <th>商品</th>
@@ -51,12 +83,12 @@
                                 <td>${order.userPhone}</td>
                                 <td>${order.address}</td>
                                 <td>${order.number}</td>
-                                <td>￥ ${order.totalPrice}</td>
+                                <td>${order.totalPrice}</td>
                                 <td><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                                 <td>${order.status}</td>
                                 <td>
-                                    <a class="btn btn-default btn-sm btn-danger"
-                                       href="${pageContext.request.contextPath}/deleteUserOrder.order?id=${order.orderId}"
+                                    <a class="btn btn-default btn-sm btn-danger" href="#"
+                                       onclick="deleteOrder(${order.orderId})"
                                        role="button" data-toggle="tooltip" data-placement="top" title="删除订单">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
@@ -70,17 +102,17 @@
                                 <td>${order.userPhone}</td>
                                 <td>${order.address}</td>
                                 <td>${order.number}</td>
-                                <td>￥ ${order.totalPrice}</td>
+                                <td>${order.totalPrice}</td>
                                 <td><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                                 <td>${order.status}</td>
                                 <td>
-                                    <a class="btn btn-default btn-sm btn-primary"
-                                       href="${pageContext.request.contextPath}/checkOrder.order?id=${order.orderId}"
+                                    <a class="btn btn-default btn-sm btn-primary" href="#"
+                                       onclick="checkOrder(${order.orderId})"
                                        role="button" data-toggle="tooltip" data-placement="top" title="确认收货">
                                         <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
                                     </a>
-                                    <a class="btn btn-default btn-sm btn-danger"
-                                       href="${pageContext.request.contextPath}/deleteUserOrder.order?id=${order.orderId}"
+                                    <a class="btn btn-default btn-sm btn-danger" href="#"
+                                       onclick="deleteOrder(${order.orderId})"
                                        role="button" data-toggle="tooltip" data-placement="top" title="删除订单">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
@@ -94,12 +126,12 @@
                                 <td>${order.userPhone}</td>
                                 <td>${order.address}</td>
                                 <td>${order.number}</td>
-                                <td>￥ ${order.totalPrice}</td>
+                                <td>${order.totalPrice}</td>
                                 <td><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                                 <td>${order.status}</td>
                                 <td>
-                                    <a class="btn btn-default btn-sm btn-danger"
-                                       href="${pageContext.request.contextPath}/deleteUserOrder.order?id=${order.orderId}"
+                                    <a class="btn btn-default btn-sm btn-danger" href="#"
+                                       onclick="deleteOrder(${order.orderId})"
                                        role="button" data-toggle="tooltip" data-placement="top" title="删除订单">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
@@ -114,9 +146,9 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li class="disabled">
-                            <span aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </span>
+                    <span aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </span>
                         </li>
                         <c:forEach items="${requestScope.array}" var="i" end="${requestScope.total - 1}">
                             <c:choose>
@@ -129,14 +161,13 @@
                             </c:choose>
                         </c:forEach>
                         <li class="disabled">
-                            <span aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </span>
+                    <span aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </span>
                         </li>
                     </ul>
                 </nav>
             </c:if>
-
         </div>
         <div class="col-md-2"></div>
     </div>

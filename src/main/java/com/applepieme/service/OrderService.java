@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * OrderService
- * 负责调用DAO层
+ * 订单的服务层接口
  *
  * @author applepieme@yeah.net
  * @date 2020/7/3 17:09
@@ -40,8 +40,15 @@ public interface OrderService {
      * 修改订单状态
      *
      * @param orderId 订单id
-     * @param status 订单状态
+     * @param status  订单状态
      * @return int
      */
     int changeOrderStatus(int orderId, String status);
+
+    /**
+     * 查询所有订单
+     *
+     * @return List
+     */
+    List<Order> listOrders();
 }

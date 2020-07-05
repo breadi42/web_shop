@@ -28,6 +28,7 @@ import java.util.List;
 public class UserController extends HttpServlet {
     /**
      * UserService实例对象
+     * 服务层实现类对象，负责调用DAO层
      */
     UserService userService = FactoryService.getService(UserService.class);
 
@@ -62,8 +63,11 @@ public class UserController extends HttpServlet {
      * @throws IOException      IOException
      */
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 把响应类型设为application/json
         resp.setContentType("application/json");
+        // 获取表单中的用户名
         String username = req.getParameter("username");
+        // 获取表单中的密码
         String password = req.getParameter("password");
         // 获取数据库中所有用户信息
         List<User> userList = userService.listUsers();
@@ -76,10 +80,12 @@ public class UserController extends HttpServlet {
                 userCart.setUser(user);
                 // 把购物车存放到session中
                 req.getSession().setAttribute("userCart", userCart);
+                // 登录成功，返回状态码200
                 resp.getWriter().println(200);
                 return;
             }
         }
+        // 登录失败，返回状态码400
         resp.getWriter().println(400);
     }
 
@@ -92,12 +98,16 @@ public class UserController extends HttpServlet {
      * @throws IOException      IOException
      */
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 把响应类型设为application/json
         resp.setContentType("application/json");
+        // 如果用户已经登录
         if (req.getSession().getAttribute("userCart") != null) {
             // 把购物车从session中清空
             req.getSession().setAttribute("userCart", null);
+            // 退出成功，返回状态码200
             resp.getWriter().println(200);
         } else {
+            // 失败，返回400
             resp.getWriter().println(400);
         }
     }
@@ -111,6 +121,7 @@ public class UserController extends HttpServlet {
      * @throws IOException      IOException
      */
     private void signup(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 把响应类型设为application/json
         resp.setContentType("application/json");
         // 创建一个用户对象
         User user = new User();
@@ -119,10 +130,12 @@ public class UserController extends HttpServlet {
         user.setPassword(req.getParameter("password"));
         user.setPhone(req.getParameter("phone"));
         user.setAddress(req.getParameter("address"));
-        // 把用户信息保存到数据库中
+        // 调用服务层，添加一个用户，若改变行数大于0，说明添加成功
         if (userService.addUser(user) >= 1) {
+            // 添加成功，返回200
             resp.getWriter().println(200);
         } else {
+            // 失败，返回400
             resp.getWriter().println(400);
         }
     }
@@ -136,6 +149,7 @@ public class UserController extends HttpServlet {
      * @throws IOException      IOException
      */
     private void welcome(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 转发到商品controller，获取用户主页的推荐商品列表
         req.getRequestDispatcher("initIndex.goods").forward(req, resp);
     }
 
@@ -148,6 +162,7 @@ public class UserController extends HttpServlet {
      * @throws IOException      IOException
      */
     private void userCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 获取session对象
         HttpSession session = req.getSession();
         // 获取购物车对象
         Cart userCart = (Cart) session.getAttribute("userCart");
@@ -185,15 +200,17 @@ public class UserController extends HttpServlet {
                         pageGoods.add(cartGoodsList.get(j + (page - 1) * 9));
                     }
                 }
-                // 设置请求参数
+                // 把当前页码，总页数，页码数组，当前页商品列表存放到request中
                 req.setAttribute("page", page);
                 req.setAttribute("total", total);
                 req.setAttribute("array", array);
                 req.setAttribute("goodsList", pageGoods);
             } else {
+                // 商品数量不足9个时，直接显示
                 req.setAttribute("goodsList", cartGoodsList);
             }
         }
+        // 转发到购物车页面
         req.getRequestDispatcher("WEB-INF/front/cart.jsp").forward(req, resp);
     }
 
@@ -206,16 +223,100 @@ public class UserController extends HttpServlet {
      * @throws IOException      IOException
      */
     private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 把响应类型设为application/json
         resp.setContentType("application/json");
+        // 获取购物车对象
         Cart userCart = (Cart) req.getSession().getAttribute("userCart");
+        // 获取当前登录用户
         User user = userCart.getUser();
+        // 用修改表单中的数据更新当前登录的用户信息
         user.setUsername(req.getParameter("username"));
         user.setPassword(req.getParameter("password"));
         user.setPhone(req.getParameter("phone"));
         user.setAddress(req.getParameter("address"));
+        // 调用服务层，修改用户信息，若改变行数大于0，说明修改成功
         if (userService.updateUser(user) >= 1) {
+            // 修改成功，返回200
             resp.getWriter().println(200);
         } else {
+            // 修改失败，返回400
+            resp.getWriter().println(400);
+        }
+    }
+
+    /**
+     * 查看所有用户信息
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
+    private void listUsers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 获取所有用户列表
+        List<User> userList = userService.listUsers();
+        if (userList != null) {
+            // 若用户数大于9个，则需要分页显示
+            if (userList.size() > 9) {
+                // 获取当前页码数
+                int page = Integer.parseInt(req.getParameter("page"));
+                // 获取总页数
+                int total = (userList.size() - 1) / 9 + 1;
+                // 创建页码数组
+                int[] array = new int[999];
+                // 初始化页码数组
+                for (int i = 0; i < total; i++) {
+                    array[i] = i + 1;
+                }
+                // 创建当前页的用户列表
+                List<User> pageUsers = new ArrayList<>();
+                // 当前是多少页就循环多少次
+                for (int i = 0; i < page; i++) {
+                    // 每次翻页都清空当前页的用户列表
+                    pageUsers.clear();
+                    // 每页显示9个用户
+                    for (int j = 0; j < 9; j++) {
+                        // 若索引值等于用户数，说明已经遍历完用户列表
+                        if ((j + (page - 1) * 9) == userList.size()) {
+                            break;
+                        }
+                        // 把用户添加到当前页的用户列表
+                        pageUsers.add(userList.get(j + (page - 1) * 9));
+                    }
+                }
+                // 把当前页，总页数，页码数组，当前页用户列表存放到request中
+                req.setAttribute("page", page);
+                req.setAttribute("total", total);
+                req.setAttribute("array", array);
+                req.setAttribute("userList", pageUsers);
+            } else {
+                // 如果用户数不足9个，则直接显示
+                req.setAttribute("userList", userList);
+            }
+        }
+        // 转发到用户管理页面
+        req.getRequestDispatcher("manage_user.page").forward(req, resp);
+    }
+
+    /**
+     * 删除一个用户
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
+    private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 响应类型设置为application/json
+        resp.setContentType("application/json");
+        // 获取要删除的用户id
+        int id = Integer.parseInt(req.getParameter("id"));
+        // 调用服务层，删除用户，若改变行数大于0，说明删除成功
+        if (userService.deleteUser(id) >= 1) {
+            // 删除成功，返回200
+            resp.getWriter().println(200);
+        } else {
+            // 删除失败，返回400
             resp.getWriter().println(400);
         }
     }

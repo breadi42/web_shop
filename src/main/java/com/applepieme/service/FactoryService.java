@@ -47,5 +47,6 @@ public final class FactoryService {
         return null;
     }
 
-    private FactoryService() {}
+    private FactoryService() {
+    }
 }

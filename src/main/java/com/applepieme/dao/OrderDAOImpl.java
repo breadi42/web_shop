@@ -43,4 +43,10 @@ public class OrderDAOImpl extends BaseDAO<Order> implements OrderDAO {
         String sql = "update `order` set `status` = ? where `orderId` = ?";
         return super.update(sql, status, orderId);
     }
+
+    @Override
+    public List<Order> listOrders() {
+        String sql = "select * from `order`";
+        return (List<Order>) super.getList(sql);
+    }
 }

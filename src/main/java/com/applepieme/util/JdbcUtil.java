@@ -44,7 +44,7 @@ public final class JdbcUtil {
     /**
      * 关闭Connection对象
      *
-     * @param connection
+     * @param connection Connection对象
      */
     public static void closeConnection(Connection connection) {
         if (connection != null) {
@@ -59,7 +59,7 @@ public final class JdbcUtil {
     /**
      * 回滚事务
      *
-     * @param connection
+     * @param connection Connection对象
      */
     public static void rollbackTransaction(Connection connection) {
         if (connection != null) {
@@ -71,5 +71,6 @@ public final class JdbcUtil {
         }
     }
 
-    private JdbcUtil() {}
+    private JdbcUtil() {
+    }
 }

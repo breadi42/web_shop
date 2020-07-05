@@ -28,18 +28,18 @@ public interface UserDAO {
     int addUser(User user);
 
     /**
-     * 根据id查询用户信息
-     *
-     * @param id 用户id
-     * @return User
-     */
-    User getUserById(int id);
-
-    /**
      * 更新用户信息
      *
      * @param user 用户数据对象
      * @return int
      */
     int updateUser(User user);
+
+    /**
+     * 删除一个用户
+     *
+     * @param userId 用户id
+     * @return int
+     */
+    int deleteUser(int userId);
 }

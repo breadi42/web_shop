@@ -13,6 +13,9 @@ import java.util.List;
  * @date 2020/7/3 17:10
  */
 public class OrderServiceImpl implements OrderService {
+    /**
+     * OrderDAO实现类对象
+     */
     OrderDAO dao = FactoryDAO.getDAO(OrderDAO.class);
 
     @Override
@@ -33,5 +36,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int changeOrderStatus(int orderId, String status) {
         return dao.changeOrderStatus(orderId, status);
+    }
+
+    @Override
+    public List<Order> listOrders() {
+        return dao.listOrders();
     }
 }

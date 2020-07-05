@@ -1,10 +1,5 @@
 package com.applepieme.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.applepieme.bean.User;
-import com.applepieme.service.FactoryService;
-import com.applepieme.service.UserService;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * 管理员Controller
@@ -23,11 +17,6 @@ import java.util.List;
  */
 @WebServlet("*.manage")
 public class ManageController extends HttpServlet {
-    /**
-     * UserService实例对象
-     */
-    UserService userService = FactoryService.getService(UserService.class);
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
@@ -53,39 +42,49 @@ public class ManageController extends HttpServlet {
     /**
      * 管理员登录
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
      */
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 响应类型设为application/json
         resp.setContentType("application/json");
+        // 获取表单中输入的用户名
         String username = req.getParameter("username");
+        // 获取表单中输入的密码
         String password = req.getParameter("password");
+        // 管理员用户名为：manage，密码为：manage
         if ("manage".equals(username) && "manage".equals(password)) {
             // 把管理员的用户名存放到session中
             req.getSession().setAttribute("manage", "manage");
+            // 登录成功，返回状态码200
             resp.getWriter().println(200);
         } else {
+            // 登录失败，返回状态码400
             resp.getWriter().println(400);
         }
     }
 
     /**
-     * 管理员注销
+     * 管理员退出
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
      */
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 响应类型设为application/json
         resp.setContentType("application/json");
+        // 如果管理员已登录
         if (req.getSession().getAttribute("manage") != null) {
             // 清空session中的管理员用户名
             req.getSession().setAttribute("manage", null);
+            // 退出成功，返回状态码200
             resp.getWriter().println(200);
         } else {
+            // 失败，返回400
             resp.getWriter().println(400);
         }
     }

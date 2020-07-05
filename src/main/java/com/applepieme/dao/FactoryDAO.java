@@ -47,5 +47,6 @@ public final class FactoryDAO {
         return null;
     }
 
-    private FactoryDAO() {}
+    private FactoryDAO() {
+    }
 }
