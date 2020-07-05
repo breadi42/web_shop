@@ -102,7 +102,7 @@
             cursor: pointer;
         }
 
-        .glyphicon-trash {
+        .shop-logo {
             margin-right: 10px;
             font-size: 50px;
         }
@@ -135,7 +135,7 @@
         <div class="col-md-4">
             <div class="page-header text-right" id="demo-home">
                 <h1>
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-trash shop-logo" aria-hidden="true"></span>
                     并 夕 夕 <small>全宇宙都在并的购物网站!</small>
                 </h1>
             </div>
@@ -155,7 +155,7 @@
                 </c:choose>
                 <c:choose>
                     <c:when test="${sessionScope.userCart != null}">
-                        <a href="${pageContext.request.contextPath}/listUserOrders.order" class="option">我的订单</a>
+                        <a href="${pageContext.request.contextPath}/listUserOrders.order?page=1" class="option">我的订单</a>
                         <a href="${pageContext.request.contextPath}/front_userInfo.page" class="option">
                             欢迎，${sessionScope.userCart.user.username}
                         </a>

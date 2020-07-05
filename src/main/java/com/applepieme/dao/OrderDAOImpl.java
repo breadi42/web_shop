@@ -23,12 +23,24 @@ public class OrderDAOImpl extends BaseDAO<Order> implements OrderDAO {
         Timestamp timestamp = Timestamp.valueOf(format);
         return super.update(sql, order.getUserId(), order.getUsername(), order.getGoodsId(),
                 order.getGoodsname(), order.getUserPhone(), order.getAddress(), order.getNumber(),
-                order.getTotalPrice(), timestamp, "未发货");
+                order.getTotalPrice(), timestamp, "待发货");
     }
 
     @Override
     public List<Order> listOrdersByUserId(int userId) {
         String sql = "select * from `order` where `userId` = ?";
         return (List<Order>) super.getList(sql, userId);
+    }
+
+    @Override
+    public int deleteOrder(int orderId) {
+        String sql = "delete from `order` where `orderId` = ?";
+        return super.update(sql, orderId);
+    }
+
+    @Override
+    public int changeOrderStatus(int orderId, String status) {
+        String sql = "update `order` set `status` = ? where `orderId` = ?";
+        return super.update(sql, status, orderId);
     }
 }

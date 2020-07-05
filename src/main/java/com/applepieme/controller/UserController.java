@@ -173,7 +173,7 @@ public class UserController extends HttpServlet {
                 List<Goods> pageGoods = new ArrayList<>();
                 // 有多少页就进行多少次循环
                 for (int i = 0; i < page; i++) {
-                    // 每次翻页都情况当前页的商品列表
+                    // 每次翻页都清空当前页的商品列表
                     pageGoods.clear();
                     // 每页 9 个商品
                     for (int j = 0; j < 9; j++) {

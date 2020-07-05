@@ -24,4 +24,14 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> listOrdersByUserId(int userId) {
         return dao.listOrdersByUserId(userId);
     }
+
+    @Override
+    public int deleteOrder(int orderId) {
+        return dao.deleteOrder(orderId);
+    }
+
+    @Override
+    public int changeOrderStatus(int orderId, String status) {
+        return dao.changeOrderStatus(orderId, status);
+    }
 }

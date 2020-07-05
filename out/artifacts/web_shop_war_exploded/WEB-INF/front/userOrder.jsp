@@ -18,6 +18,12 @@
             text-align: center;
         }
     </style>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 </head>
 <body>
 <div class="container-fluid">
@@ -37,19 +43,100 @@
                     <th>操作</th>
                 </tr>
                 <c:forEach items="${requestScope.orderList}" var="order">
-                    <tr>
-                        <td>${order.orderId}</td>
-                        <td>${order.goodsname}</td>
-                        <td>${order.userPhone}</td>
-                        <td>${order.address}</td>
-                        <td>${order.number}</td>
-                        <td>${order.totalPrice}</td>
-                        <td><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                        <td>${order.status}</td>
-                        <td>操作</td>
-                    </tr>
+                    <c:choose>
+                        <c:when test="${order.status == '待发货'}">
+                            <tr class="warning">
+                                <td>${order.orderId}</td>
+                                <td>${order.goodsname}</td>
+                                <td>${order.userPhone}</td>
+                                <td>${order.address}</td>
+                                <td>${order.number}</td>
+                                <td>￥ ${order.totalPrice}</td>
+                                <td><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                <td>${order.status}</td>
+                                <td>
+                                    <a class="btn btn-default btn-sm btn-danger"
+                                       href="${pageContext.request.contextPath}/deleteUserOrder.order?id=${order.orderId}"
+                                       role="button" data-toggle="tooltip" data-placement="top" title="删除订单">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:when>
+                        <c:when test="${order.status == '待收货'}">
+                            <tr class="info">
+                                <td>${order.orderId}</td>
+                                <td>${order.goodsname}</td>
+                                <td>${order.userPhone}</td>
+                                <td>${order.address}</td>
+                                <td>${order.number}</td>
+                                <td>￥ ${order.totalPrice}</td>
+                                <td><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                <td>${order.status}</td>
+                                <td>
+                                    <a class="btn btn-default btn-sm btn-primary"
+                                       href="${pageContext.request.contextPath}/checkOrder.order?id=${order.orderId}"
+                                       role="button" data-toggle="tooltip" data-placement="top" title="确认收货">
+                                        <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                                    </a>
+                                    <a class="btn btn-default btn-sm btn-danger"
+                                       href="${pageContext.request.contextPath}/deleteUserOrder.order?id=${order.orderId}"
+                                       role="button" data-toggle="tooltip" data-placement="top" title="删除订单">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:when>
+                        <c:when test="${order.status == '已签收'}">
+                            <tr class="success">
+                                <td>${order.orderId}</td>
+                                <td>${order.goodsname}</td>
+                                <td>${order.userPhone}</td>
+                                <td>${order.address}</td>
+                                <td>${order.number}</td>
+                                <td>￥ ${order.totalPrice}</td>
+                                <td><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                <td>${order.status}</td>
+                                <td>
+                                    <a class="btn btn-default btn-sm btn-danger"
+                                       href="${pageContext.request.contextPath}/deleteUserOrder.order?id=${order.orderId}"
+                                       role="button" data-toggle="tooltip" data-placement="top" title="删除订单">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:when>
+                    </c:choose>
                 </c:forEach>
             </table>
+
+            <c:if test="${requestScope.array != null}">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="disabled">
+                            <span aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </span>
+                        </li>
+                        <c:forEach items="${requestScope.array}" var="i" end="${requestScope.total - 1}">
+                            <c:choose>
+                                <c:when test="${requestScope.page == i}">
+                                    <li class="active"><span>${i}</span></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li><a href="${pageContext.request.contextPath}/listUserOrders.order?page=${i}">${i}</a></li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        <li class="disabled">
+                            <span aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </span>
+                        </li>
+                    </ul>
+                </nav>
+            </c:if>
+
         </div>
         <div class="col-md-2"></div>
     </div>

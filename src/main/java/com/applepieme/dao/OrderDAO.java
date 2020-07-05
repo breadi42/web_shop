@@ -27,4 +27,21 @@ public interface OrderDAO {
      * @return List
      */
     List<Order> listOrdersByUserId(int userId);
+
+    /**
+     * 根据id删除订单
+     *
+     * @param orderId 订单id
+     * @return int
+     */
+    int deleteOrder(int orderId);
+
+    /**
+     * 修改订单状态
+     *
+     * @param orderId 订单id
+     * @param status 订单状态
+     * @return int
+     */
+    int changeOrderStatus(int orderId, String status);
 }

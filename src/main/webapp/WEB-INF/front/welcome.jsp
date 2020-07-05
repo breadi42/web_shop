@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>并 夕 夕 - test</title>
+    <title>并 夕 夕</title>
     <jsp:include page="/static/header.jsp"/>
 
     <style type="text/css">
