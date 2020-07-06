@@ -95,8 +95,8 @@ public class OrderController extends HttpServlet {
             }
             // 更新购物车
             session.setAttribute("userCart", userCart);
-            // 转发到主页
-            req.getRequestDispatcher("welcome.user").forward(req, resp);
+            // 下单成功后，修改商品的库存
+            req.getRequestDispatcher("changeStock.goods").forward(req, resp);
         }
     }
 

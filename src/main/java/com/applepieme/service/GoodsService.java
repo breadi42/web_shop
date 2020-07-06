@@ -58,4 +58,21 @@ public interface GoodsService {
      * @return int
      */
     int deleteGoods(int goodsId);
+
+    /**
+     * 添加商品
+     *
+     * @param goods 商品对象
+     * @return int
+     */
+    int addGoods(Goods goods);
+
+    /**
+     * 修改商品库存
+     *
+     * @param goodsId 商品id
+     * @param stock   新库存
+     * @return int
+     */
+    int changeStock(int goodsId, int stock);
 }

@@ -5,6 +5,11 @@ import com.applepieme.bean.Goods;
 import com.applepieme.bean.User;
 import com.applepieme.service.FactoryService;
 import com.applepieme.service.GoodsService;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
@@ -488,10 +494,24 @@ public class GoodsController extends HttpServlet {
         resp.setContentType("application/json");
         // 获取要删除商品的id
         int id = Integer.parseInt(req.getParameter("id"));
+        // 根据id获取商品
+        Goods goods = goodsService.getGoodsById(id);
+        // 获取要删除的商品的图片名
+        String image = goods.getImage();
         // 调用服务层删除商品，若变化行数大于等于1，说明删除成功
         if (goodsService.deleteGoods(id) >= 1) {
-            // 成功，返回200
-            resp.getWriter().println(200);
+            // 商品的图片存放路径
+            String outPath = req.getSession().getServletContext().getRealPath("/static/img/goods/");
+            // 创建File对象
+            File file = new File(outPath + image);
+            // 删除图片
+            if (file.delete()) {
+                // 成功，返回200
+                resp.getWriter().println(200);
+            } else {
+                // 数据库中已经删除成功，但删除图片失败，返回300
+                resp.getWriter().println(300);
+            }
         } else {
             // 失败，返回400
             resp.getWriter().println(400);
@@ -567,5 +587,123 @@ public class GoodsController extends HttpServlet {
         req.setAttribute("total", total);
         req.setAttribute("array", array);
         req.setAttribute("goodsList", pageGoods);
+    }
+
+    /**
+     * 添加商品
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
+    private void addGoods(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 设置响应类型为application/json
+        resp.setContentType("application/json");
+        // 商品图片的存放路径
+        String outPath = req.getSession().getServletContext().getRealPath("/static/img/goods");
+        // 商品图片名为当前的时间戳
+        String imageName = System.currentTimeMillis() + ".jpg";
+        // 创建商品对象
+        Goods goods = new Goods();
+        // 若请求不是二进制流格式，则直接退出
+        if (!ServletFileUpload.isMultipartContent(req)) {
+            resp.getWriter().println(400);
+            return;
+        }
+        // 创建FileItemFactory对象
+        FileItemFactory factory = new DiskFileItemFactory();
+        // 创建文件上传的处理对象
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        try {
+            // 解析二进制流格式的请求
+            List<FileItem> items = upload.parseRequest(req);
+            // 遍历每个FileItem
+            for (FileItem item : items) {
+                // 获取表单中的name
+                String formName = item.getFieldName();
+                // 如果是普通的表单
+                if (item.isFormField()) {
+                    // 使用switch给商品对象初始化
+                    switch (formName) {
+                        case "goodsName":
+                            goods.setGoodsName(item.getString("utf-8"));
+                            break;
+                        case "type":
+                            goods.setType(item.getString("utf-8"));
+                            break;
+                        case "details":
+                            goods.setDetails(item.getString("utf-8"));
+                            break;
+                        case "price":
+                            goods.setPrice(Double.parseDouble(item.getString("utf-8")));
+                            break;
+                        case "stock":
+                            goods.setStock(Integer.parseInt(item.getString("utf-8")));
+                            break;
+                        default:
+                    }
+                } else {
+                    // 判断文件是否为JPG类型
+                    if (!"jpg".equals(item.getName().substring(item.getName().length() - 3))) {
+                        // 不是则返回状态码300
+                        resp.getWriter().println(300);
+                        return;
+                    }
+                    // 给商品对象初始化图片名
+                    goods.setImage(imageName);
+                    try {
+                        // 把上传的图片保存到对应的路径中
+                        item.write(new File(outPath, imageName));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            // 调用服务层添加商品，如果改变行数大于0，说明添加成功
+            if (goodsService.addGoods(goods) >= 1) {
+                // 成功，返回200
+                resp.getWriter().println(200);
+                // 若添加失败，则把刚刚上传的图片删除
+            } else {
+                // 重新初始化图片路径
+                outPath = req.getSession().getServletContext().getRealPath("/static/img/goods/");
+                // 创建File对象
+                File file = new File(outPath + imageName);
+                // 删除图片
+                if (file.delete()) {
+                    // 失败返回400
+                    resp.getWriter().println(400);
+                }
+            }
+        } catch (FileUploadException e) {
+            // 异常时返回400
+            resp.getWriter().println(400);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 修改商品库存
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
+    private void changeStock(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 获取要修改的商品id
+        int id = Integer.parseInt(req.getParameter("goodsId"));
+        // 获取当前订单的商品数
+        int number = Integer.parseInt(req.getParameter("number"));
+        // 获取要修改的商品
+        Goods goods = goodsService.getGoodsById(id);
+        // 新库存等于原库存减去订单商品数
+        int stock = goods.getStock() - number;
+        // 调用服务层修改库存，若改变行数大于0，说明修改成功
+        if (goodsService.changeStock(id, stock) >= 1) {
+            // 转发到用户主页
+            req.getRequestDispatcher("welcome.user").forward(req, resp);
+        }
     }
 }

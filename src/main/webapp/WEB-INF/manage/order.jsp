@@ -62,12 +62,13 @@
                 <li role="presentation"><a href="${pageContext.request.contextPath}/listGoods.goods?page=1">商品管理</a></li>
             </ul>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <ol class="breadcrumb">
                 <li><a href="${pageContext.request.contextPath}/manage_welcome.page">Home</a></li>
                 <li class="active">订单管理</li>
             </ol>
-
+        </div>
+        <div class="col-md-8">
             <table class="table table-striped">
                 <tr>
                     <th>订单编号</th>

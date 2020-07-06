@@ -30,7 +30,8 @@
                        class="option">GitHub</a> |
                     <a rel="nofollow" href="https://www.bootcss.com/" class="option">Bootstrap</a> |
                     <a rel="nofollow" href="http://glyphicons.com/" class="option">Glyphicon</a>
-                    <br><span>Copy<a href="https://github.com/ApplePieme" class="option">github.com/ApplePieme</a></span>
+                    <br><span>Copy<a href="https://github.com/ApplePieme"
+                                     class="option">github.com/ApplePieme</a></span>
                 </div>
             </div>
         </div>

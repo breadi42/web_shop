@@ -22,10 +22,12 @@
                 <li role="presentation"><a href="${pageContext.request.contextPath}/listGoods.goods?page=1">商品管理</a></li>
             </ul>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <ol class="breadcrumb">
                 <li class="active">Home</li>
             </ol>
+        </div>
+        <div class="col-md-8">
             <div class="jumbotron">
                 <h1>您好, 管理员!</h1>
                 <p>在这里，您可以轻松管理并夕夕的用户</p>

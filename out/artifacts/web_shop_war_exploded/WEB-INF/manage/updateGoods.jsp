@@ -81,13 +81,14 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <ol class="breadcrumb">
                 <li><a href="${pageContext.request.contextPath}/manage_welcome.page">Home</a></li>
                 <li><a href="${pageContext.request.contextPath}/listGoods.goods?page=1">商品管理</a></li>
                 <li class="active">修改商品信息</li>
             </ol>
-
+        </div>
+        <div class="col-md-8">
             <div>
                 <form class="form-horizontal" id="update-form">
                     <div class="form-group">

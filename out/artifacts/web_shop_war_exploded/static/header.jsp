@@ -67,7 +67,7 @@
                 $.get('${pageContext.request.contextPath}/logout.manage', function (msg, status) {
                     if (status === 'success') {
                         if (msg === 200) {
-                            window.location.href = '${pageContext.request.contextPath}/front_welcome.page'
+                            window.location.href = '${pageContext.request.contextPath}/index.page'
                         } else {
                             alert('请先登录!')
                             window.location.href = '${pageContext.request.contextPath}/login.page'

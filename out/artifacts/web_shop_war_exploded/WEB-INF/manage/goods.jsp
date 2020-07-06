@@ -22,6 +22,8 @@
                 if (status === 'success') {
                     if (msg === 200) {
                         location.reload()
+                    } else if (msg === 300) {
+                        toastr.warning('删除了商品，但商品图片未删除!')
                     } else {
                         toastr.error('删除商品失败!')
                     }
@@ -35,6 +37,10 @@
     <style type="text/css">
         th {
             min-width: 90px;
+        }
+
+        nav {
+            display: inline-block;
         }
     </style>
 </head>
@@ -51,12 +57,15 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-8">
+
+        <div class="col-md-9">
             <ol class="breadcrumb">
                 <li><a href="${pageContext.request.contextPath}/manage_welcome.page">Home</a></li>
                 <li class="active">商品管理</li>
             </ol>
+        </div>
 
+        <div class="col-md-8">
             <table class="table table-striped">
                 <tr>
                     <th>商品编号</th>
@@ -94,9 +103,9 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li class="disabled">
-                    <span aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </span>
+                            <span aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </span>
                         </li>
                         <c:forEach items="${requestScope.array}" var="i" end="${requestScope.total - 1}">
                             <c:choose>
@@ -109,14 +118,18 @@
                             </c:choose>
                         </c:forEach>
                         <li class="disabled">
-                    <span aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </span>
+                            <span aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </span>
                         </li>
                     </ul>
                 </nav>
             </c:if>
+        </div>
 
+        <div class="col-md-1">
+            <a class="btn btn-default btn-primary text-right"
+               href="${pageContext.request.contextPath}/manage_addGoods.page" role="button">添加商品</a>
         </div>
     </div>
 </div>

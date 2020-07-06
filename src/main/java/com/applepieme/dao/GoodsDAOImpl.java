@@ -49,4 +49,18 @@ public class GoodsDAOImpl extends BaseDAO<Goods> implements GoodsDAO {
         String sql = "delete from `goods` where `goodsId` = ?";
         return super.update(sql, goodsId);
     }
+
+    @Override
+    public int addGoods(Goods goods) {
+        String sql = "insert into `goods` (`goodsname`, `type`, `price`, `image`, `details`, `stock`) values" +
+                "(?, ?, ?, ?, ?, ?)";
+        return super.update(sql, goods.getGoodsName(), goods.getType(), goods.getPrice(), goods.getImage(),
+                goods.getDetails(), goods.getStock());
+    }
+
+    @Override
+    public int changeStock(int goodsId, int stock) {
+        String sql = "update `goods` set `stock` = ? where `goodsId` = ?";
+        return super.update(sql, stock, goodsId);
+    }
 }
